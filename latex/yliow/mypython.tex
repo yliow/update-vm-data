@@ -1,0 +1,21 @@
+% Python environment
+
+\usepackage{atbeginend}
+%\BeforeBegin{python}{\mbox{}\\ \begin{minipage}{\textwidth}\vspace{3pt}}
+%\AfterEnd{python}{\vspace{4pt} \end{minipage} \\ }
+
+
+\newenvironment{mypython}
+{\begin{python}}
+{\end{python}}
+
+
+% ADDED: 2022/08/01
+\specialcomment{python0}{%
+  \begingroup
+  \def\ProcessCutFile{}%
+}{%
+  \immediate\write18{python comment.cut > comment.out 2> comment.err}%
+  \endgroup
+}
+

@@ -1,0 +1,60 @@
+% Author:       Tobias N"ahring
+% Date:         2007-04-07
+% Description:  See tobiShell.tex
+% License:      GPL
+%               short:
+%               1) no warranty whatever (the file is not pure
+%               non-sense, if it was I would be responsible for the
+%               consequences in accordance to German law),
+%               2) copying granted,
+%               3) modification granted if the modified file is
+%               licenced under the GPL and the author of the
+%               modifications is mentioned in the files
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tobiShell}[2004/04/12 This is tobiShell.sty. v1:2003/11/25]
+
+
+\newwrite\tobiShellFile
+\def\tobiShellFileName{shEsc.tmp}
+\def\tobiShellCommand{bash}
+
+
+\newcommand\bShell[1][\tobiShellCommand]{\bShellOptArgInternal[#1]}
+% This is just a wrapper to provide an optional argument for
+% \bShellOptArgInternal defined below.
+
+
+{% This group will keep the catcode mess local.
+  \catcode`\^^M=13% To be able to redefine newlines in \tobiShellCommandInternal we have to do this.
+  \gdef\bShellOptArgInternal[#1]{%
+    \gdef\tobiShellCommandInternal{#1}% saved for use in the tail...
+    \bgroup% localises the catcode mess...
+    \def\do##1{\catcode`##1 12\relax}%
+    \catcode`\^^M=13% Now 
+    \def^^M{^^J}%
+    \dospecials%
+    \bShellInternal% End of the header.
+  }%
+}
+
+{% playing around with catcodes...
+  %% The user will call \bShell ...stuff... \eShell.
+  %% \bShell deactivates all control characters
+  %% including the escape character `\'.
+  %% Therefore, while \bShell is just a command
+  %% \eShell is a sequence of Characters
+  %% with catcodes 12 and 11.
+  %% This explains the necessity of the next two lines:
+  \catcode`\@=0\relax
+  @catcode`@\=12@relax
+  @gdef@bShellInternal#1\eShell{% Definition of the tail.
+    %% Writing the shell script to the file \tobiShellFile:
+    @immediate@openout@tobiShellFile@tobiShellFileName
+    @immediate@write@tobiShellFile{#1}
+    @immediate@closeout@tobiShellFile
+    %% Now we are ready to run the shell command on the shell script:
+    @immediate@write18{@tobiShellCommandInternal@space@tobiShellFileName}
+    @egroup% This delimites the catcode mess.
+  }
+}
+

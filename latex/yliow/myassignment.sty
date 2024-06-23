@@ -1,0 +1,23 @@
+\usepackage{mymacro-new}
+
+%==============================================================================
+% Page style, header, footer
+%==============================================================================
+\renewcommand\HEADERLEFT{\textsc{\COURSENUMBER: \COURSESHORTNAME}}
+
+%==============================================================================
+% Place this immediately after \begin{document}
+%==============================================================================
+\newcommand\topmatter {
+ 
+  \hypersetup{
+    pdftitle={\COURSENUMBER: \TITLE},
+  }
+
+  \newpage
+  \begin{center}
+    \textbf{\COURSENUMBER: \COURSENAME} \\
+    \textbf{\TITLE}
+  \end{center}
+  \mbox{} \\
+}

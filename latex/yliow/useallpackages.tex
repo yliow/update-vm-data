@@ -1,0 +1,100 @@
+% https://tex.stackexchange.com/questions/10706/pdftex-error-font-expansion-auto-expansion-is-only-possible-with-scalable
+% to fix
+%./fedora/glutPostRedisplay/glutPostRedisplay.tex:68: Extra \fi.
+%\AtBegShi@Output ...t \box \AtBeginShipoutBox \fi 
+%                                                  \fi 
+%l.68 
+
+%\usepackage[T1]{fontenc} % | CAUSES " to be straight quotes 
+%\usepackage{lmodern}     % |
+
+
+% The next three are from ciss240 q0104. WIll they cause errors?
+%\usepackage[T1]{fontenc}  % access \textquotedbl
+%\usepackage{textcomp}     % access \textquotesingle
+%\usepackage{mathptmx}     % load "Times New Roman" text font 
+%                          % (note: the "times" package is obsolete!)
+
+\usepackage{marginnote}
+\usepackage{setspace}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+% \usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{fancyvrb}
+\usepackage{parskip} % This is probably already loaded by KOMA script
+\usepackage{lastpage}
+\usepackage{verbatim,boxedminipage,enumitem}
+
+\usepackage{hyperref}
+%\usepackage[hypertexnames=false]{hyperref} % 2022/5/11
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{ifthen}
+\usepackage{color,graphicx}
+\usepackage{pgf}
+\usepackage{longtable}
+\usepackage{upquote} % for ' in verbatim env
+%\usepackage{xkeyval}
+%\usepackage{xargs}
+%\usepackage[all]{xy} -- COMMENTED OUT FOR F18
+%\SelectTips {cm}{} % xy
+%\usepackage{pmgraph}
+\usepackage{tobiShell}
+
+% --- pgf ---
+\usepackage{tikz}
+\usetikzlibrary{automata}
+%\usetikzlibrary{matrix}
+%\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+%\usetikzlibrary{petri}
+%\usetikzlibrary{decorations.pathmorphing}
+%\usetikzlibrary{fit}
+%\usetikzlibrary{trees}
+%\usetikzlibrary{shadows}
+%\usetikzlibrary{shapes}
+%\usetikzlibrary{chain} % TODO: Why is this not found?
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+\usepackage{pgf,pgfarrows,pgfnodes}
+\usepackage{pgfplots}
+\usepackage{circuitikz}
+\usetikzlibrary{circuits}
+\usetikzlibrary{circuits.logic.US}
+ \usetikzlibrary{shapes.geometric}
+
+\usepackage{python}
+\usepackage{lscape}
+
+
+\usepackage{mathpartir}
+
+%===========================
+% Strikethrough
+% math - $\cancel{a}$
+% text - \sout{Hello world}
+%===========================
+\usepackage[normalem]{ulem}
+\usepackage{cancel}
+
+
+% ADDED 2022/08/01 -- ???? used by python0 for \specialcomment??????
+\usepackage{comment}
+
+% ADDED 2022/08/10
+\usepackage{centernot}
+\usepackage{mleftright}
+\usepackage{tikz-cd} % dnf install texlive-tikz-cd
+
+% ADDED 2023/08/03: 
+\usepackage{currfile}
+\usepackage[makestderr]{pythontex}
+
+% ADDED 2023/08/12: for \cpp\
+%\usepackage{relsize} REMOVED ... use C\texttt{++}

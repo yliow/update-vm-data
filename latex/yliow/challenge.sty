@@ -1,0 +1,40 @@
+%===================================================================
+% assignment.sty
+% Yihsiang Liow
+%===================================================================
+\usepackage{mymacro-new}
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\oddsidemargin}{0 in} %
+\setlength{\marginparwidth}{1 in}
+\setlength{\headheight}{14.5pt}
+
+\pagestyle{fancy}
+
+\fancyhf{}
+\fancyhead{}
+\fancyfoot{}
+%\fancyhead[R]{\TITLE}
+\fancyhead[C]{\TITLE}
+%\fancyhead[L]{\COURSENUMBER: \COURSESHORTNAME}
+
+\fancyfoot[R]{\TODAY}
+\fancyfoot[L]{\AUTHOR}
+\fancyfoot[C]{\thepage \ of \pageref{LastPage}}
+\renewcommand\headrulewidth{2pt}
+\renewcommand\footrulewidth{2pt}
+\fancypagestyle{plain}{%
+\fancyhead{} % get rid of headers on plain pages
+\renewcommand{\headrulewidth}{0pt} % and the line
+}
+
+\newcommand\topmatter{
+
+  %\centerline{ {\bf \COURSENUMBER: \COURSENAME} }
+
+  \centerline{{\Huge \bf \TITLE}}
+
+  \vskip 1cm
+
+}

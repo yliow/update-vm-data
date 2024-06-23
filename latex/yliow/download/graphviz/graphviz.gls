@@ -1,0 +1,46 @@
+
+ \begin{theglossary} 
+
+    \makeatletter\scan@allowedfalse
+
+  \item v0.1\efill 
+ \subitem General:\ Initial version\pfill 1
+  \item v0.2\efill 
+ \subitem \verb*+\digraph+:\ minor adjustments\pfill 5
+    \subitem \verb*+\inputdigraph+:\ minor adjustments\pfill 6
+  \item v0.4\efill 
+ \subitem General:\ converted to dtx format\pfill 1
+    \subitem \verb*+\digraph+:\ new comments\pfill 5
+  \item v0.5\efill 
+ \subitem General:\ renamed package to \textsf  {dotla}\pfill 1
+    \subitem \verb*+\digraph+:\ added automatic invocation of dot\pfill 5
+  \item v0.6\efill 
+ \subitem \verb*+\digraph+:\ added singlefile option\pfill 5
+    \subitem \verb*+singlefile+:\ added singlefile option\pfill 3
+  \item v0.7\efill 
+ \subitem General:\ renamed package back to \textsf  {graphviz}\pfill 1
+    \subitem \verb*+\digraph+:\ added backslash-hyphen line breaks by Ralf Hemmecke\pfill 5
+      \subsubitem now using gvpr instead of gawk to break out individual digraphs from master.graphviz\pfill 
+		5
+      \subsubitem removed redundant invocation of dot from digraph; only inputdigraph needs to invoke dot\pfill 
+		5
+    \subitem \verb*+singlefile+:\ now using gvpr instead of gawk to break out individual digraphs from master.graphviz\pfill 
+		3
+  \item v0.8\efill 
+ \subitem \verb*+\inputdigraph+:\ added psfrag support\pfill 6
+    \subitem \verb*+psfrag+:\ added psfrag option\pfill 3
+  \item v0.9\efill 
+ \subitem \verb*+\digraph+:\ refactored for control-M by Ralf Hemmecke\pfill 5
+    \subitem \verb*+\neatograph+:\ added support for neato\pfill 5
+  \item v0.91\efill 
+ \subitem \verb*+\digraph+:\ a bit of cleanup and modernization\pfill 5
+  \item v0.92\efill 
+ \subitem \verb*+pdf+:\ added pdf option\pfill 4
+    \subitem \verb*+ps+:\ added ps option (previously default behaviour)\pfill 4
+  \item v0.93\efill 
+ \subitem \verb*+tmpdir+:\ added tmpdir option\pfill 4
+  \item v0.94\efill 
+ \subitem \verb*+singlefile+:\ writing gvpr commands to separate script to be executed when master.graphviz is closed\pfill 
+		3
+
+ \end{theglossary}

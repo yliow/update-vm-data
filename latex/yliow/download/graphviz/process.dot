@@ -1,0 +1,35 @@
+digraph process {
+/* PROGRAMS */
+latex1 [label="latex -shell-escape x.tex", shape=hexagon, fontname=Courier];
+latex2 [label="latex x.tex", shape=hexagon, fontname=Courier];
+dvips [label="dvips -o x.ps x.dvi", shape=hexagon, fontname=Courier];
+/* FILES */
+xTex [label="x.tex", fontname=Helvetica, shape=ellipse];
+xDvi [label="x.dvi", fontname=Helvetica, shape=ellipse];
+xPS [label="x.ps", fontname=Helvetica, shape=ellipse];
+subgraph cluster0 {
+label="graphviz.sty magic";
+dot [label="dot -Tps -o a.ps a.dot", shape=hexagon, fontname=Courier];
+gvpr [label="gvpr master.graphviz", shape=hexagon, fontname=Courier];
+aPS [label="a.ps", fontname=Helvetica, shape=ellipse];
+sed [label="sed s/xshow/pop show/g a.ps", shape=hexagon, fontname=Courier];
+aDot [label="a.dot", fontname=Helvetica, shape=ellipse];
+master [label="master.graphviz", fontname=Helvetica, shape=ellipse];
+};
+/* COMMON EDGES */
+xTex -> latex1;
+xTex -> latex2;
+latex2 -> xDvi;
+xDvi -> dvips;
+dvips -> xPS;
+latex1 -> master [style=dotted, label=singlefile];
+latex1 -> aDot [style=dotted, label="multiple files"];
+master -> gvpr;
+gvpr -> aDot;
+aDot -> dot;
+dot -> aPS;
+aPS -> sed;
+sed -> aPS;
+aPS -> dvips;
+aPS -> latex2;
+}

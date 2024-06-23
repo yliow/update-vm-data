@@ -1,0 +1,31 @@
+% Sty file for book
+%
+% ISSUES:
+% - If the contents is more than 1 page, then the header on the second page
+%   of the contents section is incorrect.
+% - Insert header + footer for contents page?
+% - Reduce the vertical spacing in the title page
+
+\usepackage{mymacro-new}
+\usepackage{tocstyle}
+\usetocstyle{KOMAlike}
+\setlength{\textwidth}{5in} % wide version
+
+%==============================================================================
+% Title page
+%==============================================================================
+\title{\textsc{\TITLE} \vspace{-0.5cm}}
+\author{\textsc{\AUTHOR \hspace{12pt} (\DATE)} \vspace{-2cm}}
+\date{\vspace{0cm}}
+
+%==============================================================================
+% Call \topmatter immediately after \begin{document}
+%==============================================================================
+\newcommand\topmatter {
+  \input{myhyperref.tex}
+  \maketitle
+  \nopagebreak
+  
+  \tableofcontents
+  \newpage
+}

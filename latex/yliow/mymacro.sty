@@ -1,0 +1,345 @@
+%===================================================================
+% mymacro.tex
+% Yihsiang Liow
+%===================================================================
+
+%===================================================================
+% My global constants
+%===================================================================
+\newcommand\TODAY{\today}
+\newcommand\now{\TODAY}
+\newcommand\cwd{}
+
+\newcommand\COURSENAME{}
+\newcommand\COURSESHORTNAME{}
+\newcommand\COURSENUMBER{}
+\newcommand\TITLE{}
+\newcommand\AUTHOR{}
+\newcommand\SHORTAUTHOR{}
+\newcommand\DATE{\today}
+\newcommand\EMAIL{}
+
+\newcommand\HEADERLEFT{}
+\newcommand\HEADERRIGHT{\textsc{\TITLE}}
+\newcommand\FOOTERLEFT{\textsc{\AUTHOR} \textup{\texttt{\scriptsize \EMAIL}}}
+\newcommand\FOOTERCENTER{\textsc{\thepage \ of \pageref{LastPage}}}
+\newcommand\FOOTERRIGHT{\textsc{\DATE}}
+
+%===================================================================
+% Python command to be processed by pylatex.py. \python command will
+% not do anything.
+%===================================================================
+\newcommand\python[1]{\underline{Python: #1}\sidebar{!!!}}
+
+%===================================================================
+% Latex packages
+%===================================================================
+\usepackage{amsmath,amssymb,amsthm}
+% \usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{fancyvrb}
+\usepackage{parskip} % This is probably already loaded by KOMA script
+\usepackage{lastpage}
+\usepackage{verbatim,boxedminipage,enumitem}
+\usepackage{hyperref}
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{ifthen}
+\usepackage{color,graphicx}
+\usepackage{pgf}
+\usepackage{longtable}
+\usepackage{upquote} % for ' in verbatim env
+%\usepackage{xkeyval}
+%\usepackage{xargs}
+\usepackage[all]{xy}
+%\SelectTips {cm}{} % xy
+%\usepackage{pmgraph}
+\usepackage{tobiShell}
+
+% --- pgf ---
+\usepackage{tikz}
+\usetikzlibrary{automata}
+%\usetikzlibrary{matrix}
+%\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+%\usetikzlibrary{petri}
+%\usetikzlibrary{decorations.pathmorphing}
+%\usetikzlibrary{fit}
+%\usetikzlibrary{trees}
+%\usetikzlibrary{shadows}
+%\usetikzlibrary{shapes}
+%\usetikzlibrary{chain} % TODO: Why is this not found?
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+\usepackage{pgf,pgfarrows,pgfnodes}
+\usepackage{pgfplots}
+\usepackage{circuitikz}
+\usetikzlibrary{circuits}
+\usetikzlibrary{circuits.logic.US}
+
+\newcommand\newxybox[2] {
+ \newsavebox{#1}
+ \savebox{#1} #2
+}
+
+\usepackage{mymath}
+
+%===================================================================
+% Overall page formats:
+% - set page format such as width, height, etc.
+% - set \topmatter
+%===================================================================
+\newcommand\STYLE{STYLE}
+\newcommand\style[1]{\renewcommand\STYLE{#1}}
+
+%===================================================================
+% DECRECATED: Format and layouts are in specific "layout" files
+% such as assignment.sty, mybook.sty, quiz.sty
+%===================================================================
+\newcommand\format{
+ \ifthenelse{\equal{\STYLE}{courseinfo}} % ----- COURSESINFO FORMAT -----
+  {
+   \setlength{\textwidth}{6.5 in}
+   \setlength{\textheight}{9 in}
+   \setlength{\oddsidemargin}{0 in}
+   \setlength{\marginparwidth}{1 in}
+   \setlength{\headheight}{14.5pt} % fancyhdr need this
+   \pagestyle{fancy}
+   \fancyhead{}
+   \fancyfoot{}
+   \fancyhead[R]{ \textsc{\TITLE}}
+   \fancyhead[L]{ \textsc{\COURSENUMBER: \SHORTCOURSENAME}}
+   \fancyfoot[R]{ \textsc{\TODAY}}
+   \fancyfoot[L]{ \textsc{\AUTHOR} {\scriptsize (\EMAIL)} \\ 
+                  {\scriptsize \cwd} }
+   \fancyfoot[C]{ \thepage \ of \pageref{LastPage} }
+   \renewcommand\headrulewidth{2pt}
+   \renewcommand\footrulewidth{2pt}
+  }{}
+}
+
+%===================================================================
+% Color
+%===================================================================
+%\definecolor{white}{rgb}{1,1,1}
+%\definecolor{hide}{rgb}{1,1,1}
+
+\definecolor{red}{rgb}{1,0,0}
+\newcommand\redtext[1]{\textcolor{red}{#1}}
+\newcommand\whitetext[1]{\textcolor{white}{#1}}
+\newcommand\emp[1]{\redtext{\underline{#1}}}
+
+
+%===================================================================
+% theorem, definition, etc
+%===================================================================
+\newtheorem{cor}{Corollary}
+\newtheorem{prop}{Proposition}
+\newtheorem{lem}{Lemma}
+\newtheorem{thm}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{eg}{Example}
+\newtheorem{ex}{Exercise}
+\newtheorem{notation}{Notation}
+\newtheorem{warning}{Warning}
+\newtheorem{rem}{Remark}
+
+\renewcommand{\qed}{{\hfill \ensuremath{\Box}} }
+%\def\qed{QED}
+
+\newcommand\solution[1]{
+\\
+{\bf Solution.} 
+
+#1 $\square$ 
+}
+
+\newcommand\defterm[1]{{\textbf{#1}}\index{#1}}
+
+%===================================================================
+% For bigl( ... bigr) and biggl( ... biggr)
+%===================================================================
+\newcommand\bigp[1]{{ \bigl( #1 \bigr) }}
+\newcommand\biggp[1]{{ \biggl( #1 \biggr) }}
+
+%===================================================================
+% Page format
+% TODO: Move this to mybook.sty, assignment.sty, quiz.sty?
+%===================================================================
+
+% Change general font to helvetica
+\newcommand\helvetica{\renewcommand{\familydefault}{phv}}
+
+\usepackage[automark]{scrpage2}
+\pagestyle{scrheadings}
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\marginparwidth}{1 in}
+
+\clearscrheadfoot
+\ihead{\HEADERLEFT} 
+\ohead{\HEADERRIGHT}
+\cfoot{\FOOTERCENTER}
+\ifoot{\FOOTERLEFT}
+\ofoot{\FOOTERRIGHT}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}} % WHAT IS THIS FOR?
+
+%===================================================================
+% Boxed paragraph
+%===================================================================
+\newcommand\boxpar[1]{
+ \[
+  \framebox[4.75 in][c] {
+   \parbox[]{4.5 in} {#1}
+  }
+ \]
+}
+
+\newenvironment{asciiart}
+{\begin{verbatim}}
+{\end{verbatim}}
+
+
+\newcommand\bottommatter{
+}
+
+%===================================================================
+% Verbatim
+%===================================================================
+
+%-------------------
+% For inline source
+%-------------------
+\DefineVerbatimEnvironment%
+ {source}{Verbatim}
+ {numbers=left,
+ frame=single}
+
+%--------------------------------------------------------------------
+% Source file inclusion
+% Command chars are \...~....@. Example: \underline~foo@
+%--------------------------------------------------------------------
+\newcommand\includesource[1] {
+\VerbatimInput[frame=single, numbers=left]
+{#1}
+}
+\newcommand\includesourcenonumbers[1] {
+\VerbatimInput[frame=single]
+{#1}
+}
+
+
+%------------------------------------------------------------------
+% Verbatim for console window - single line frame, no line numbers
+%------------------------------------------------------------------
+\DefineVerbatimEnvironment%
+ {console}{Verbatim}
+ {frame=single}
+
+%--------------------------------------------------------
+% Remove the vertical spacing before and after Verbatim.
+%--------------------------------------------------------
+\usepackage{atbeginend}
+\BeforeBegin{console}{\mbox{}\\ \begin{minipage}{\textwidth}\vspace{3pt}}
+\AfterEnd{console}{\vspace{4pt} \end{minipage} \\ }
+
+
+%===================================================================
+% Sidenote
+%===================================================================
+\newcommand\sidenote[1]{\marginpar{\footnotesize\sl #1}}
+
+\newcommand\instructornote[1]{
+  \marginpar{\footnotesize{\sl\underline{\it Instructor note.} #1}}
+}
+\newcommand\authornote[1]{
+  \marginpar{\footnotesize{\sl\underline{\it Author note.} #1}}
+}
+\newcommand\sidebar[1]{
+  \marginpar{\footnotesize{\sl #1}}
+}
+
+
+%===================================================================
+% General stuff
+%===================================================================
+\newcommand\SOLUTION{{\bf SOLUTION.}}
+
+
+%===================================================================
+% Various environments for listing/enumeration
+%===================================================================
+\newenvironment{mylist}
+ {\begin{enumerate}[topsep=0pt, 
+                    partopsep=0pt, 
+                    parsep=0pt, 
+                    itemsep=0pt]
+ %\vspace{-12pt}
+ }
+ {\end{enumerate}}
+
+\newenvironment{mylistnotop}
+ {\begin{enumerate}[topsep=0pt, 
+                    partopsep=0pt, 
+                    parsep=0pt, 
+                    itemsep=0pt]
+ \vspace{-12pt}
+ }
+ {\end{enumerate}\vspace{-12pt}}
+
+\newenvironment{tightlist} % just another name for mylistnotop
+ {\begin{enumerate}[topsep=0pt, 
+                    partopsep=0pt, 
+                    parsep=0pt, 
+                    itemsep=0pt]
+ \vspace{-12pt}
+ }
+ {\end{enumerate}\vspace{-12pt}}
+\newcommand\li{\item[$\bullet$]}
+
+
+\newcommand\mychapter[3] % chapter num, page num, title
+{
+  \setcounter{chapter}{#1}
+  \setcounter{page}{#2}
+  \chapter{ #3}
+  \newpage
+}
+
+\newcommand\mysection[2] {
+  \section{#1}
+}
+
+%----------------------------------------------
+% Same as \input but also prints the file name
+%----------------------------------------------
+\newcommand\myinput[1]{
+\begin{minipage}{\textwidth}
+\boxed{\text{\texttt{File: #1}}}
+\end{minipage}
+\input{#1} \newpage
+}
+
+\input{myhyperref.tex}
+
+%==============================================================================
+% To adjust space before thm environment. This is needed because something is
+% wrong before of the parskip.
+%==============================================================================
+\begingroup
+\makeatletter
+   \@for\theoremstyle:=definition,remark,plain\do{%
+     \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+        \addtolength\thm@preskip\parskip
+     }%
+   }
+\endgroup 

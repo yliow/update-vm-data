@@ -1,0 +1,344 @@
+%===================================================================
+% mymacro.tex
+% Yihsiang Liow
+%===================================================================
+
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+
+%===================================================================
+% My global constants
+%===================================================================
+\newcommand\TODAY{\today}
+\newcommand\now{\TODAY}
+\newcommand\cwd{}
+
+\newcommand\COURSENAME{}
+\newcommand\COURSESHORTNAME{}
+\newcommand\COURSENUMBER{}
+\newcommand\TITLE{}
+\newcommand\AUTHOR{}
+\newcommand\SHORTAUTHOR{}
+\newcommand\DATE{\today}
+\newcommand\EMAIL{}
+
+\newcommand\HEADERLEFT{}
+\newcommand\HEADERCENTER{}
+\newcommand\HEADERRIGHT{\textsc{\TITLE}}
+
+\newcommand\FOOTERLEFT{\textsc{\AUTHOR} \textup{\texttt{\scriptsize \EMAIL}}}
+\newcommand\FOOTERCENTER{\textsc{\thepage \ of \pageref{LastPage}}}
+\newcommand\FOOTERRIGHT{\textsc{\DATE}}
+
+%===================================================================
+% Python command to be processed by pylatex.py. \python command will
+% not do anything.
+%===================================================================
+\newcommand\python[1]{\underline{Python: #1}\sidebar{!!!}}
+
+%===================================================================
+% Latex packages
+%===================================================================
+\input{useallpackages.tex}
+
+
+\newcommand\newxybox[2] {
+ \newsavebox{#1}
+ \savebox{#1} #2
+}
+
+\usepackage{mymath}
+
+%===================================================================
+% Overall page formats:
+% - set page format such as width, height, etc.
+% - set \topmatter
+%===================================================================
+\newcommand\STYLE{STYLE}
+\newcommand\style[1]{\renewcommand\STYLE{#1}}
+
+%===================================================================
+% DECRECATED: Format and layouts are in specific "layout" files
+% such as assignment.sty, mybook.sty, quiz.sty
+%===================================================================
+\newcommand\format{
+ \ifthenelse{\equal{\STYLE}{courseinfo}} % ----- COURSESINFO FORMAT -----
+  {
+   \setlength{\textwidth}{6.5 in}
+   \setlength{\textheight}{9 in}
+   \setlength{\oddsidemargin}{0 in}
+   \setlength{\marginparwidth}{1 in}
+   \setlength{\headheight}{14.5pt} % fancyhdr need this
+   \pagestyle{fancy}
+   \fancyhead{}
+   \fancyfoot{}
+   \fancyhead[R]{ \textsc{\TITLE}}
+   \fancyhead[L]{ \textsc{\COURSENUMBER: \SHORTCOURSENAME}}
+   \fancyfoot[R]{ \textsc{\TODAY}}
+   \fancyfoot[L]{ \textsc{\AUTHOR} {\scriptsize (\EMAIL)} \\ 
+                  {\scriptsize \cwd} }
+   \fancyfoot[C]{ \thepage \ of \pageref{LastPage} }
+   \renewcommand\headrulewidth{2pt}
+   \renewcommand\footrulewidth{2pt}
+  }{}
+}
+
+%===================================================================
+% Color
+%===================================================================
+%\definecolor{white}{rgb}{1,1,1}
+%\definecolor{hide}{rgb}{1,1,1}
+\definecolor{blue}{rgb}{0,0,1}
+\definecolor{red}{rgb}{1,0,0}
+%\newcommand\redtext[1]{\textcolor{red}{#1}} % 2020/1/22 commented
+%\newcommand\textred[1]{\textcolor{red}{#1}}
+\newcommand\bluetext[1]{\textcolor{blue}{#1}}
+\newcommand\textblue[1]{\textcolor{blue}{#1}}
+%\newcommand\whitetext[1]{\textcolor{white}{#1}}
+\newcommand\textwhite[1]{\textcolor{white}{#1}}
+%\newcommand\emp[1]{\redtext{\underline{#1}}}
+\newcommand\typo[1]{\redtext{\underline{#1}}} % for typo
+\newcommand\bbb[1]{\emp{#1}} % for emphasize
+\newcommand\boxedtext[1]{\boxed{\text{#1}}}
+\newcommand\textbox[1]{\boxed{\text{#1}}}
+
+%===================================================================
+% theorem, definition, etc
+%===================================================================
+
+\newtheorem{cor}{Corollary}
+\numberwithin{cor}{section}
+
+\newtheorem{prop}{Proposition}
+\numberwithin{prop}{section}
+
+\newtheorem{lem}{Lemma}
+\numberwithin{lem}{section}
+
+\newtheorem{thm}{Theorem}
+\numberwithin{thm}{section}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}{Definition}  \numberwithin{defn}{section}
+\newtheorem{eg}{Example}       \numberwithin{eg}{section}
+\newtheorem{ex}{Exercise}      \numberwithin{ex}{section}
+\newtheorem{soln}{Solution}    \numberwithin{soln}{section}
+\newtheorem{notation}{Notation}
+\newtheorem{warning}{Warning}
+\newtheorem{rem}{Remark}
+
+\renewcommand{\qed}{ {\mbox{}\hfill \ensuremath{\Box}} }
+
+\newcommand\defterm[1]{{\textbf \index{#1}#1}}
+
+%===================================================================
+% For bigl( ... bigr) and biggl( ... biggr)
+%===================================================================
+\newcommand\bigp[1]{{ \bigl( #1 \bigr) }}
+\newcommand\biggp[1]{{ \biggl( #1 \biggr) }}
+
+
+%===================================================================
+% Page format
+% TODO: Move this headerfooter.tex
+%===================================================================
+\usepackage[automark]{scrpage2}
+\input{headerfooter.tex}
+
+%\pagestyle{scrheadings}
+
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\marginparwidth}{1 in}
+
+%\clearscrheadfoot
+%\cfoot{\HEADERCENTER}
+%\ihead{\HEADERLEFT} 
+%\ohead{\HEADERRIGHT}
+%\cfoot{\FOOTERCENTER}
+%\ifoot{\FOOTERLEFT}
+%\ofoot{\FOOTERRIGHT}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}} % don't cap section
+%\renewcommand{\chaptermark}[1]{\markright{#1}{}} % don't cap chap
+
+%===================================================================
+% Boxed paragraph
+%===================================================================
+\newcommand\boxpar[1]{
+ \[
+  \framebox[4.75 in][c] {
+   \parbox[]{4.5 in} {#1}
+  }
+ \]
+}
+
+
+% PROBABLY USELESS
+\newcommand\bottommatter{
+}
+
+%===================================================================
+% Verbatim
+%===================================================================
+\input{myverbatim.tex}
+
+%===================================================================
+% Sidenote
+%===================================================================
+\newcommand\sidenote[1]{\marginpar{\footnotesize\sl #1}}
+
+\newcommand\instructornote[1]{
+  \marginpar{\footnotesize{\sl\underline{\it Instructor note.} #1}}
+}
+\newcommand\instructor[1]{
+  \underline{\it Instructor note.} #1
+}
+
+\newcommand\authornote[1]{
+  \marginpar{\footnotesize{\sl\underline{\it Author note.} #1}}
+}
+\newcommand\sidebar[1]{
+  \marginpar{\footnotesize{\sl #1}}
+}
+
+
+%===================================================================
+% General stuff
+%===================================================================
+\newcommand\SOLUTION{{\textbf SOLUTION.\ }}
+
+% 2020/1/22: COMMENTED
+%\newcommand\solution[1]{
+%\\
+%{\textbf Solution.} 
+%
+%#1 $\square$ 
+%}
+
+
+%===================================================================
+% enumerate, itemize, etc.
+%===================================================================
+\input{mylist.tex}
+
+
+
+\newcommand\mychapter[3] % chapter num, page num, title
+{
+  \setcounter{chapter}{#1}
+  \setcounter{page}{#2}
+  \chapter{ #3}
+  \newpage
+}
+
+\newcommand\mysection[1] {
+\newpage\section{#1}
+}
+
+\newcommand\mysubsection[1] {
+\newpage\subsection{#1}
+}
+
+%----------------------------------------------
+% Same as \input but also prints the file name
+%----------------------------------------------
+\newcommand\myinput[1]{
+ \begin{minipage}{\textwidth}
+  \boxed{\text{\texttt{File: #1}}}
+ \end{minipage}
+ \input{#1}
+ \newpage
+}
+
+\input{myhyperref.tex}
+
+%==============================================================================
+% To adjust space before thm environment. This is needed because something is
+% wrong before the parskip.
+%==============================================================================
+\begingroup
+\makeatletter
+   \@for\theoremstyle:=definition,remark,plain\do{%
+     \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+        \addtolength\thm@preskip\parskip
+     }%
+   }
+\endgroup 
+
+\newcommand\drawbox[2]{
+\fbox{\begin{minipage}{#1in}\hfill\vspace{#2in}\end{minipage}}
+}
+
+%==============================================================================
+% Solution boxes for quizzes/tests
+%==============================================================================
+\newcommand\newsolutionbox[3]{
+  \fbox{
+    \begin{minipage}[c][#2in]{#1in}
+#3\mbox{}
+    \end{minipage}
+  }
+}
+\newcommand\newsolutionboxone[3]{
+  \fbox{
+    \begin{minipage}[c][#2]{#1}
+#3\mbox{}
+    \end{minipage}
+  }
+}
+
+%==============================================================================
+% Objectives -- used for assignments, quizzes, ... any assessment item
+% ADDED 2012/06/01
+%==============================================================================
+\newcommand\objectives[1]
+{
+  \framebox
+  {
+    \begin{minipage}[]{0.97\textwidth}
+      {\textbf Objectives:}
+      #1
+    \end{minipage}
+  }
+}
+
+%==============================================================================
+% Python
+%==============================================================================
+\input{mypython.tex}
+
+%==============================================================================
+% Typewriter font  (added 2012/05/12)
+%==============================================================================
+\input{typewriter-cmtt}
+
+% Change general font to helvetica
+\newcommand\helvetica{\renewcommand{\familydefault}{phv}}
+
+%==============================================================================
+% to indicate user input in verbatim  
+%==============================================================================
+\newcommand\userinput[1]{\underline{#1}}
+
+
+%==============================================================================
+% Strikeout macros
+% hcancel is from the web. It does not always work
+%==============================================================================
+\newcommand\hcancel[3][black]{\setbox0=\hbox{$#3$\,}%
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{#2pt}}}}#3} 
+\newcommand\textso[1]{\sout{#1}}
+\newcommand\mathsocolor{black}
+\newcommand\mathsowidth{1}
+\newcommand\mathso[1]{\hcancel[\mathsocolor]{\mathsowidth}{#1}}
+
+%==============================================================================
+% \mathsc -- This is used to put textsc into math mode. 
+% Use this for complexity type problems and languages such as 
+% $\mathsc{Clique}$, $\mathsc{Equal}$, etc.
+%==============================================================================
+\newcommand\mathsc[1]{{\operatorname{\text{\textsc{#1}}}}}

@@ -1,0 +1,43 @@
+% Sty file for thesis
+%
+% ISSUES:
+% - If the contents is more than 1 page, then the header on the second page
+%   of the contents section might be incorrect.
+% - Insert header + footer for contents page?
+% - Reduce the vertical spacing in the title page
+
+\usepackage{mymacro-new}
+
+\newcommand\DEGREE{Bachelor of Science}
+\newcommand\AREA{Computer Science}
+\newcommand\INSTITUTION{Columbia College}
+\newcommand\PURPOSE{A thesis submitted to \INSTITUTION \
+in partial fulfillment for the \DEGREE \ in \AREA}
+\newcommand\ADVISOR{SOME ADVISOR}
+
+%==============================================================================
+% Title page
+%==============================================================================
+\title {
+\mbox{} \\ \vspace{1in}\TITLE}
+\author{\textsc{\AUTHOR}}
+\date  {\textsc{\DATE}
+\\
+\vspace{1in}
+\PURPOSE
+\\
+\vspace{2in}
+\textsc{Advisor: \ADVISOR}
+}
+
+%==============================================================================
+% Call \topmatter immediately after \begin{document}
+%==============================================================================
+\newcommand\topmatter {
+ \maketitle
+ \nopagebreak
+
+ \tableofcontents
+ \newpage
+}
+

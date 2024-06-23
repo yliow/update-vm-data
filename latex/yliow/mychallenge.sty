@@ -1,0 +1,28 @@
+\usepackage{mymacro-new}
+
+%==============================================================================
+% Page style, header, footer
+%==============================================================================
+\renewcommand\HEADERLEFT{\textsc{\TITLEONE}}
+\renewcommand\HEADERRIGHT{\textsc{\TITLETWO}}
+
+%==============================================================================
+% Place this immediately after \begin{document}
+%==============================================================================
+\newcommand\topmatter {
+ 
+  \hypersetup{
+    pdftitle={\TITLEONE: \TITLETWO},
+  }
+
+  \newpage
+
+  \begin{center}
+    \textsc{ \TITLEONE } 
+    \textbf{ 
+      \\ \mbox{} \\
+      {\Huge \TITLETWO}
+    }
+  \end{center}
+  \mbox{} \\
+}

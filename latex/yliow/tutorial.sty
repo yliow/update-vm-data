@@ -1,0 +1,39 @@
+%===================================================================
+% tutorial.sty
+% Yihsiang Liow
+%
+% Style for short tutorial article. Uses only sections. No chapter.
+%
+% Table of contents is built. 
+% The section name appears in the header.
+%===================================================================
+\usepackage{mymacro-new}
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\oddsidemargin}{0 in} %
+\setlength{\marginparwidth}{1 in}
+\setlength{\headheight}{14.5pt}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{ \textsc{\S{\nouppercase{\leftmark}}}}
+\fancyhead[L]{ \textsc{\TITLE} }
+\fancyfoot[R]{ \textsc{\TODAY} }
+\fancyfoot[L]{ \textsc{\AUTHOR} {\scriptsize (\EMAIL)} \\ 
+{\scriptsize \cwd} }
+\fancyfoot[C]{ \thepage \ of \pageref{LastPage} }
+\renewcommand\headrulewidth{2pt}
+\renewcommand\footrulewidth{2pt}
+\renewcommand\footskip{0.5in}
+
+\newcommand\topmatter{
+\centerline{{\Huge\textbf{\TITLE}}}
+\vskip 0.4cm
+
+\tableofcontents
+
+\textbf{***** THIS IS DECRECATED. USE myarticle.sty INSTEAD. *****}
+
+}

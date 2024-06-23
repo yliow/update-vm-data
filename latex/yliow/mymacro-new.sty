@@ -1,0 +1,455 @@
+%===================================================================
+% mymacro.tex
+% Yihsiang Liow
+%===================================================================
+
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+
+%===================================================================
+% My global constants
+%===================================================================
+\newcommand\TODAY{\today}
+\newcommand\now{\TODAY}
+\newcommand\cwd{}
+
+\newcommand\COURSENAME{}
+\newcommand\COURSESHORTNAME{}
+\newcommand\COURSENUMBER{}
+\newcommand\TITLE{}
+\newcommand\AUTHOR{}
+\newcommand\SHORTAUTHOR{}
+\newcommand\DATE{\today}
+\newcommand\EMAIL{}
+
+\newcommand\HEADERLEFT{}
+\newcommand\HEADERCENTER{}
+\newcommand\HEADERRIGHT{\textsc{\TITLE}}
+
+\newcommand\FOOTERLEFT{\textsc{\AUTHOR} \textup{\texttt{\scriptsize \EMAIL}}}
+\newcommand\FOOTERCENTER{\textsc{\thepage \ of \pageref{LastPage}}}
+\newcommand\FOOTERRIGHT{\textsc{\DATE}}
+
+%===================================================================
+% Python command to be processed by pylatex.py. \python command will
+% not do anything.
+%===================================================================
+\newcommand\python[1]{\underline{Python: #1}\sidebar{!!!}}
+
+%===================================================================
+% Latex packages
+%===================================================================
+\input{useallpackages.tex}
+
+
+\newcommand\newxybox[2] {
+ \newsavebox{#1}
+ \savebox{#1} #2
+}
+
+\usepackage{mymath}
+
+%===================================================================
+% Overall page formats:
+% - set page format such as width, height, etc.
+% - set \topmatter
+%===================================================================
+\newcommand\STYLE{STYLE}
+\newcommand\style[1]{\renewcommand\STYLE{#1}}
+
+%===================================================================
+% DECRECATED: Format and layouts are in specific "layout" files
+% such as assignment.sty, mybook.sty, quiz.sty
+%===================================================================
+\newcommand\format{
+ \ifthenelse{\equal{\STYLE}{courseinfo}} % ----- COURSESINFO FORMAT -----
+  {
+   \setlength{\textwidth}{6.5 in}
+   \setlength{\textheight}{9 in}
+   \setlength{\oddsidemargin}{0 in}
+   \setlength{\marginparwidth}{1.25 in} % FROM 1in
+   \setlength{\headheight}{14.5pt} % fancyhdr need this
+   \pagestyle{fancy}
+   \fancyhead{}
+   \fancyfoot{}
+   \fancyhead[R]{ \textsc{\TITLE}}
+   \fancyhead[L]{ \textsc{\COURSENUMBER: \SHORTCOURSENAME}}
+   \fancyfoot[R]{ \textsc{\TODAY}}
+   \fancyfoot[L]{ \textsc{\AUTHOR} {\scriptsize (\EMAIL)} \\ 
+                  {\scriptsize \cwd} }
+   \fancyfoot[C]{ \thepage \ of \pageref{LastPage} }
+   \renewcommand\headrulewidth{2pt}
+   \renewcommand\footrulewidth{2pt}
+  }{}
+}
+
+%===================================================================
+% Color
+%===================================================================
+%\definecolor{white}{rgb}{1,1,1}
+%\definecolor{hide}{rgb}{1,1,1}
+\definecolor{blue}{rgb}{0,0,1}
+\definecolor{red}{rgb}{1,0,0}
+\newcommand\redtext[1]{\textcolor{red}{#1}}
+\newcommand\textred[1]{\textcolor{red}{#1}}
+\newcommand\bluetext[1]{\textcolor{blue}{#1}}
+\newcommand\textblue[1]{\textcolor{blue}{#1}}
+\newcommand\whitetext[1]{\textcolor{white}{#1}}
+\newcommand\textwhite[1]{\textcolor{white}{#1}}
+\newcommand\emp[1]{\redtext{\underline{#1}}}
+\newcommand\typo[1]{\redtext{\underline{#1}}} % for typo
+\newcommand\bbb[1]{\emp{#1}} % for emphasize
+\newcommand\boxedtext[1]{\boxed{\text{#1}}}
+\newcommand\textbox[1]{\boxed{\text{#1}}}
+
+%===================================================================
+% theorem, definition, etc
+%===================================================================
+
+\newtheorem{cor}{Corollary}
+\numberwithin{cor}{section}
+
+\newtheorem{prop}{Proposition}
+\numberwithin{prop}{section}
+
+\newtheorem{lem}{Lemma}
+\numberwithin{lem}{section}
+
+\newtheorem{thm}{Theorem}
+\numberwithin{thm}{section}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}{Definition}  \numberwithin{defn}{section}
+\newtheorem{eg}{Example}       \numberwithin{eg}{section}
+\newtheorem{ex}{Exercise}      \numberwithin{ex}{section}
+\newtheorem{soln}{Solution}    \numberwithin{soln}{section}
+\newtheorem{notation}{Notation}
+\newtheorem{warning}{Warning}
+\newtheorem{rem}{Remark}
+
+\renewcommand{\qed}{ {\mbox{}\hfill \ensuremath{\Box}} }
+
+\newcommand\defterm[1]{\textbf{#1}\index{#1}}
+
+%===================================================================
+% For bigl( ... bigr) and biggl( ... biggr)
+%===================================================================
+\newcommand\bigp[1]{{ \bigl( #1 \bigr) }}
+\newcommand\biggp[1]{{ \biggl( #1 \biggr) }}
+
+
+%===================================================================
+% Page format
+% TODO: Move this headerfooter.tex
+%===================================================================
+\usepackage[automark]{scrpage2}
+\input{headerfooter.tex}
+
+%\pagestyle{scrheadings}
+
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\marginparwidth}{1 in}
+
+%\clearscrheadfoot
+%\cfoot{\HEADERCENTER}
+%\ihead{\HEADERLEFT} 
+%\ohead{\HEADERRIGHT}
+%\cfoot{\FOOTERCENTER}
+%\ifoot{\FOOTERLEFT}
+%\ofoot{\FOOTERRIGHT}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}} % don't cap section
+%\renewcommand{\chaptermark}[1]{\markright{#1}{}} % don't cap chap
+
+%===================================================================
+% Boxed paragraph
+%===================================================================
+\newcommand\boxpar[1]{
+ \[
+  \framebox[4.75 in][c] {
+   \parbox[]{4.5 in} {#1}
+  }
+ \]
+}
+
+
+% PROBABLY USELESS
+\newcommand\bottommatter{
+}
+
+%===================================================================
+% Verbatim
+%===================================================================
+\input{myverbatim.tex}
+
+%===================================================================
+% Sidenote
+% sidenote, sidebar are the same. So make sidenote the main one.
+% There are some problems with marginpar -- "float(s) lost".
+% Switch to using marginnote. However marginnote does not prevent
+% overlaps. To this in that case to force vspace:
+% \marginnote{Marginnote 1} \renewcommand*{\marginnotevadjust}{40pt}\marginnote{Marginnote 2}
+%===================================================================
+\renewcommand*{\marginfont}{\tiny} % fontsize for marginnote
+\newcommand\sidebar[1]{\marginnote{#1}}
+\newcommand\sidenote[1]{\sidebar{#1}}
+\newcommand\tinysidebar[1]{\sidebar{#1}}
+\newcommand\tinysidebarskip{\renewcommand*{\marginnotevadjust}{8pt}}
+\newcommand\sidebarskip[1]{\renewcommand*{\marginnotevadjust}{#1}}
+\newcommand\instructornote[1]{\sidebar{\textit{Instructor note}.} #1}
+\newcommand\instructor[1]{\instructornote{#1}}
+\newcommand\authornote[1]{\sidebar{\textit{Author note}.} #1}
+
+\newcommand\defone[1]{\textnormal{\defterm{#1}}\tinysidebar{#1}}
+\newcommand\deftwo[2]{\textnormal{\defterm{#1 #2}}\tinysidebar{#1 #2}}
+\newcommand\defsymbol[1]{\textnormal{\defterm{#1}}\tinysidebar{#1}}
+
+%===================================================================
+% General stuff
+%===================================================================
+\newcommand\SOLUTION{\textsc{SOLUTION.\ }}
+
+\newcommand\solution[1]{
+\\
+\textsc{Solution.}
+
+#1 $\square$ 
+}
+
+
+%===================================================================
+% enumerate, itemize, etc.
+%===================================================================
+\input{mylist.tex}
+
+
+
+\newcommand\mychapter[3] % chapter num, page num, title
+{
+  \setcounter{chapter}{#1}
+  \setcounter{page}{#2}
+  \chapter{ #3}
+  \newpage
+}
+
+\newcommand\mysection[1] {
+\newpage\section{#1}
+}
+
+\newcommand\mysubsection[1] {
+\newpage\subsection{#1}
+}
+
+%----------------------------------------------
+% Same as \input but also prints the file name
+% \inputsection - section from a file. filename included as debug
+%----------------------------------------------
+\newcommand\myinput[1]{
+ %\begin{minipage}{\textwidth}
+ % \boxed{\text{\texttt{File: #1}}}
+  %\end{minipage}
+ \tinysidebar{\debug{#1}}
+ \input{#1} 
+ %\newpage
+}
+\newcommand\inputsection[2]{
+  % flush solution of previous section is solutions.tex exists and is not
+  % empty, clear solutions.tex.
+  %\pyc{print('before section title'); print('line 1'); print('line 2'); import solutions; solutions.inputsolutions()}
+  %
+  \section{#1 \textnormal{\tiny{\debug{\currfilename}}}}
+  %\pyc{print('after section title'); print('line 3'); print('line 4');}
+  \input{#2}
+}
+
+\newcommand\clearsolutions{
+\pyc{from solutions import *;
+clear()}
+}
+
+\newcommand\flushsolutions{
+\pyc{from solutions import *;
+prepare_solutions()}
+\newpage
+\input{solutions.tex}
+}
+
+\newcommand\sectionthree[1]{
+\pyc{from solutions import *;
+prepare_solutions()}
+\newpage
+\input{solutions.tex}
+\newpage
+\section{#1 \textnormal{\tiny{\debug{\currfilename}}}}
+%\section{#1}
+}
+
+\input{myhyperref.tex}
+
+%==============================================================================
+% To adjust space before thm environment. This is needed because something is
+% wrong before the parskip.
+%==============================================================================
+\begingroup
+\makeatletter
+   \@for\theoremstyle:=definition,remark,plain\do{%
+     \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+        \addtolength\thm@preskip\parskip
+     }%
+   }
+\endgroup 
+
+\newcommand\drawbox[2]{
+\fbox{\begin{minipage}{#1in}\hfill\vspace{#2in}\end{minipage}}
+}
+
+%==============================================================================
+% Solution boxes for quizzes/tests
+%==============================================================================
+\newcommand\newsolutionbox[3]{
+  \fbox{
+    \begin{minipage}[c][#2in]{#1in}
+#3\mbox{}
+    \end{minipage}
+  }
+}
+\newcommand\newsolutionboxone[3]{
+  \fbox{
+    \begin{minipage}[c][#2]{#1}
+#3\mbox{}
+    \end{minipage}
+  }
+}
+
+%==============================================================================
+% Objectives -- used for assignments, quizzes, ... any assessment item
+% ADDED 2012/06/01
+%==============================================================================
+\newcommand\objectives[1]
+{
+  \framebox
+  {
+    \begin{minipage}[]{0.97\textwidth}
+      {\textbf Objectives:}
+      #1
+    \end{minipage}
+  }
+}
+
+%==============================================================================
+% Python
+%==============================================================================
+\input{mypython.tex}
+
+%==============================================================================
+% Typewriter font  (added 2012/05/12)
+%==============================================================================
+\input{typewriter-cmtt}
+
+% Change general font to helvetica
+\newcommand\helvetica{\renewcommand{\familydefault}{phv}}
+
+%==============================================================================
+% to indicate user input in verbatim  
+%==============================================================================
+\newcommand\userinput[1]{\underline{\texttt{#1}}}
+
+
+%==============================================================================
+% Strikeout macros
+% hcancel is from the web. It does not always work
+%==============================================================================
+\newcommand\hcancel[3][black]{\setbox0=\hbox{$#3$\,}%
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{#2pt}}}}#3} 
+\newcommand\textso[1]{\sout{#1}}
+\newcommand\mathsocolor{black}
+\newcommand\mathsowidth{1}
+\newcommand\mathso[1]{\hcancel[\mathsocolor]{\mathsowidth}{#1}}
+
+%==============================================================================
+% \mathsc -- This is used to put textsc into math mode. 
+% Use this for complexity type problems and languages such as 
+% $\mathsc{Clique}$, $\mathsc{Equal}$, etc.
+%==============================================================================
+\newcommand\mathsc[1]{{\operatorname{\text{\textsc{#1}}}}}
+
+
+% ADDED 2022/08/05
+%\newcommand\cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{++}}}}
+%\newcommand\gpp{{g\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{++}}}}
+
+%\newcommand\CC{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{+}}}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\relsize{-3}{\textbf{+}}}}
+%\newcommand\cpp{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+%\newcommand\gpp{g\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+\newcommand\cpp{C\texttt{++}}
+\newcommand\gpp{g\texttt{++}}
+
+
+% 2022/08/10
+\tikzset{>=triangle 60}
+\tikzset{accepting/.style={double distance=2pt}}
+\tikzset{state/.style={circle, draw, minimum size=0.5cm}}
+
+%==============================================================================
+% 2022/08/10 -- for solutions to exercises, proofs, etc.
+% need solutions.py
+% This is used in solutions -- see projects/calculus for examples.
+% The python program solutions.py generate tex fragments that contains
+% mylabelcounter.
+% \solutionlink is also used
+\newcounter{mylabelcounter}
+\makeatletter
+\newcommand{\labeltext}[2]{%
+#1\refstepcounter{mylabelcounter}%
+\immediate\write\@auxout{%
+  \string\newlabel{#2}{{1}{\thepage}{{\unexpanded{#1}}}{mylabelcounter.\number\value{mylabelcounter}}{}}%
+}%
+}
+\makeatother
+
+\newcommand\solutionlink[1]{
+  (\hyperref[#1]{Go to solution},
+  page \pageref{#1})}
+
+
+% for inserting debug info
+% after debugging, do \renewcommand\debug[1]{}
+\newcommand\debug[1]{debug: #1}
+
+% for axioms -- see projects/calculus
+\newcommand\defaxiom[1]{\textsc{#1}\textnormal{:}\index{#1}\tinysidebar{\textsc{#1}}}
+
+%===============================================================================
+% Make single quote straight in texttt. See also \userinput.
+% https://tex.stackexchange.com/questions/436308/changing-all-single-quotes-to-be-straight-when-within-texttt
+%
+% 2023/10/18. ERROR: The below will cause problems in Verbatim!!!!!!!!
+%===============================================================================
+%\usepackage{textcomp,lmodern,letltxmacro}
+%\LetLtxMacro{\svtexttt}{\texttt}
+%\catcode`'=\active %
+%\let\svprime'
+%\renewcommand\texttt{\catcode`'=\active \def'{\textquotesingle}\textttaux}
+%\newcommand\textttaux[1]{\svtexttt{#1}\gdef'{\svprime}\catcode`'=12 }
+%\catcode`'=12 %
+
+%===============================================================================
+% Test cases: counter and header
+% USAGE:
+%    \resettt
+%    \nextt
+%    \begin{console}
+%    \userinput{1, 2}
+%    3
+%    \end{console}
+%===============================================================================
+\newcounter{tc}                        % test case counter
+\newcommand\resett{\setcounter{tc}{0}} % reset test case counter 
+\newcommand\nextt{                     % inc test case counter and print
+\addtocounter{tc}{1}
+\textsc{Test {\thetc}.}
+}

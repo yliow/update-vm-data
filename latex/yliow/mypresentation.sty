@@ -1,0 +1,123 @@
+% Presentation
+
+%==============================================================================
+% ERROR! mymacro-new.sty cannot be include in beamer
+%==============================================================================
+%\usepackage{mymacro-new}
+
+%\documentclass{beamer}
+%\usepackage{beamerthemeshadow}
+
+%\input{useallpackages.tex} -- DOES NOT WORK
+\usepackage{python}
+
+\usepackage{fancyvrb}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{ifthen}
+\usepackage{longtable}
+\usepackage{upquote} % to fix single quotes in verbatim
+\usepackage{graphicx}
+
+% for strikout sout
+\usepackage[normalem]{ulem}
+\usepackage{cancel}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+
+\usefonttheme{professionalfonts} %  math fonts
+%\usetikzlibrary{arrows} % CHECK IF NEEDED?????
+
+%\input{myhyperrefpresentation.tex} -- 2020/1/22: FIle missing
+%\input{mymacro-new-presentation.sty}
+
+\newcommand\textwhite[1]{\textcolor{white}{#1}}
+\newcommand\textso[1]{\sout{#1}}
+
+%===================================================================
+% theorem, definition, etc
+%===================================================================
+
+\newtheorem{cor}{Corollary}
+\numberwithin{cor}{section}
+
+\newtheorem{prop}{Proposition}
+\numberwithin{prop}{section}
+
+\newtheorem{lem}{Lemma}
+\numberwithin{lem}{section}
+
+\newtheorem{thm}{Theorem}
+\numberwithin{thm}{section}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}{Definition}  \numberwithin{defn}{section}
+\newtheorem{eg}{Example}       \numberwithin{eg}{section}
+\newtheorem{ex}{Exercise}      \numberwithin{ex}{section}
+\newtheorem{soln}{Solution}    \numberwithin{soln}{section}
+\newtheorem{notation}{Notation}
+\newtheorem{warning}{Warning}
+\newtheorem{rem}{Remark}
+
+\usepackage{longtable}
+\usepackage{verbatim} % for block comment
+
+\newcommand\mathsc[1]{{\operatorname{\text{\textsc{#1}}}}} % ADDED 2020/1/22
+
+\definecolor{red}{rgb}{1,0,0}
+\newcommand\redtext[1]{\textcolor{red}{#1}}
+\newcommand\textred[1]{\textcolor{red}{#1}}
+\newcommand\whitetext[1]{\textcolor{white}{#1}}
+\newcommand\emp[1]{\redtext{\underline{#1}}}
+\newcommand\li{\item}
+\newcommand\includesource[1] {
+\VerbatimInput[frame=single, numbers=left]
+{#1}
+}
+
+\newcommand\token[1]{{\langle #1 \rangle}}
+
+%==============================================================================
+% Globals
+%==============================================================================
+\date{\today}
+\author{Yihsiang Liow}
+
+%==============================================================================
+% Place \topmatter immediately after \begin{document}
+%==============================================================================
+\newcommand\topmatter {
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Outline}
+  \frametitle{Table of contents}
+  \tableofcontents
+
+  \vfill % This seems to squeeze some space of the toc
+\end{frame} 
+}
+
+%==============================================================================
+% Y.LIOW: To insert pagenumber/lastpage on the bottomleft
+%==============================================================================
+\defbeamertemplate*{footline}{shadow theme}
+{%
+  \leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertframenumber\,/\,\inserttotalframenumber\hfill\insertshortauthor
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle%
+\end{beamercolorbox}}%
+\vskip0pt%
+}
+

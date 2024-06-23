@@ -1,0 +1,101 @@
+%==============================================================================
+% Verbatim related stuff
+%==============================================================================
+
+
+%------------------------------------------------------------------------------
+% For inline source
+%------------------------------------------------------------------------------
+\DefineVerbatimEnvironment%
+ {source}{Verbatim}
+ {numbers=left,
+ frame=single}
+
+%------------------------------------------------------------------------------
+% Source file inclusion
+% Command chars are \...~....@. Example: \underline~foo@
+%------------------------------------------------------------------------------
+\newcommand\includesource[1] {
+\VerbatimInput[frame=single,numbers=left,fontsize=\footnotesize]{#1}
+}
+
+\newcommand\includesourcenonumbers[1] {
+\VerbatimInput[frame=single,fontsize=\footnotesize]{#1}
+}
+
+\newcommand\includesourcenonumberslabel[1] {
+\VerbatimInput[frame=single,fontsize=\footnotesize]{#1}
+\vspace{-0.5cm}
+\begin{center}{{\scriptsize \texttt{#1}}}\end{center} % warning: texttt might cause problem with underscore ... $$ issue
+}
+
+%------------------------------------------------------------------------------
+% Verbatim for console window - single line frame, no line numbers
+%------------------------------------------------------------------------------
+\DefineVerbatimEnvironment%
+ {console}{Verbatim}
+ {frame=single,fontsize=\footnotesize}
+
+\DefineVerbatimEnvironment%
+ {smallconsole}{Verbatim}
+ {frame=single,fontsize=\small}
+
+% This is used by the verbatim() function in latextool_basic.py 
+\DefineVerbatimEnvironment%
+ {consoletwo}{Verbatim}
+ {}
+
+% This is the console environment used within a python environment because
+% python environment seems to add some extra vertical spacing.
+\DefineVerbatimEnvironment%
+ {consoleone}{Verbatim}
+ {frame=single}
+
+%------------------------------------------------------------------------------
+% Remove the vertical spacing before and after console environment
+%------------------------------------------------------------------------------
+\usepackage{atbeginend}
+\BeforeBegin{console}{
+\mbox{}\\
+\begin{minipage}{\textwidth}\vspace{3pt}
+}
+\AfterEnd{console}{
+\vspace{4pt} 
+\end{minipage} \\ 
+}
+
+
+\usepackage{atbeginend}
+\BeforeBegin{consoleone}{
+\mbox{}\\ 
+\begin{minipage}{\textwidth}\vspace{-1pt}
+}
+\AfterEnd{consoleone}{
+\vspace{-1pt} 
+\end{minipage} \\ 
+}
+
+
+\usepackage{atbeginend}
+\BeforeBegin{consoletwo}{
+\mbox{}\\ 
+\begin{minipage}{\textwidth}\vspace{-1pt}
+}
+\AfterEnd{consoletwo}{
+\vspace{-1pt} 
+\end{minipage} \\ 
+}
+%------------------------------------------------------------------------------
+% Remove the vertical spacing before and after verbatim environment
+%------------------------------------------------------------------------------
+%\usepackage{atbeginend}
+%\BeforeBegin{Verbatim}{\mbox{}\\ \begin{minipage}{\textwidth}\vspace{3pt}}
+%\AfterEnd{Verbatim}{\vspace{4pt} \end{minipage} \\ }
+
+
+
+% PROBABLY USELESS
+\newenvironment{asciiart}
+{\begin{verbatim}}
+{\end{verbatim}}
+

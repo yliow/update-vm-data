@@ -1,0 +1,77 @@
+%===================================================================
+% Various environments for listing/enumeration
+%===================================================================
+\newenvironment{mylist}
+{\begin{enumerate}[topsep=0pt, partopsep=0pt, 
+                    parsep=0pt, itemsep=0pt]
+}
+{\end{enumerate}
+}
+
+
+\newenvironment{mylistnotop}
+{
+ \mbox{} \\
+ \begin{minipage}{\textwidth}
+ \vspace{5pt}
+ **** DEPRECATED: use tightlist ***
+ \begin{enumerate}[topsep=0pt, partopsep=0pt, 
+                  parsep=0pt, itemsep=0pt]
+}
+{
+ \end{enumerate}
+ \vspace{6pt}
+ \end{minipage}
+}
+
+
+
+\newenvironment{tightlist}
+{
+ \mbox{} \\
+ \begin{minipage}{\textwidth}
+ \vspace{5pt}
+ \begin{enumerate}[topsep=0pt, partopsep=0pt, 
+                  parsep=0pt, itemsep=0pt]
+}
+{
+ \end{enumerate}
+ \vspace{6pt}
+ \end{minipage}
+}
+
+% ADDED 2023/07/03
+\makeatletter
+\newlist{myenum@}{enumerate}{1}
+\setlist{nosep,noitemsep,topsep=0pt}
+\setlist[itemize]{noitemsep,topsep=0pt}
+\setlist[enumerate]{noitemsep,topsep=0pt}
+\setlist[myenum@]{label=\normalfont{(\alph*)},ref=\arabic*,nosep,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt}
+\newenvironment{myenum}[1][]
+  {\begin{myenum@}[#1]
+     }
+  {\end{myenum@}}
+\makeatother
+
+%==============================================================================
+% This has a larger label width for use with axioms.
+%==============================================================================
+\newenvironment{axioms}
+{
+ \mbox{} \\
+ \begin{minipage}{\textwidth}
+ \vspace{5pt}
+ \begin{enumerate}[leftmargin=1in,labelwidth=1in,
+                   topsep=0pt, partopsep=0pt, 
+                   parsep=0pt, itemsep=0pt]
+}
+{
+ \end{enumerate}
+ \vspace{6pt}
+ \end{minipage}
+}
+
+%==============================================================================
+% Shorthand for bullet point
+%==============================================================================
+\newcommand\li{\item[$\bullet$]}
