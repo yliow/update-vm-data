@@ -1,0 +1,4 @@
+.emacs/ ????
+alex/
+latex/
+python/
