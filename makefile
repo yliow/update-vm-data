@@ -3,6 +3,7 @@ cp: cp-latex cp-python cp-alex cp-unix
 
 cp-latex:
 	# should go into /usr/share/texlive/texmf-local/tex/latex/yliow
+	-rm -rf latex
 	-mkdir latex
 	-mkdir latex/yliow
 	cp -r /home/student/yliow/Documents/work/projects/latex-yliow/* latex/yliow/
@@ -10,6 +11,7 @@ cp-latex:
 
 cp-python:
 	# should go into /usr/lib/python*.*/site-packages
+	-rm -rf python
 	-mkdir python
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latextool_basic.py      python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latexcircuit.py         python/
@@ -17,7 +19,6 @@ cp-python:
 	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py              python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py              python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/recognizelatex/recognizelatex.py  python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/gmail3/sendgmail.py               python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/xcapture/xcapture.py              python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py            python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/quiz/makequiz.py  python/
