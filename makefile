@@ -1,4 +1,4 @@
-cp: cp-latex cp-python cp-alex
+cp: cp-latex cp-python cp-alex cp-unix
 	echo "done"
 
 cp-latex:
