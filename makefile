@@ -4,7 +4,7 @@ cp: cp-latex cp-python cp-alex
 cp-latex:
 	# should go into /usr/share/texlive/texmf-local/tex/latex/yliow
 	-mkdir latex
-	cp -r /usr/share/texlive/texmf-local/tex/latex/yliow latex
+	cp -r /home/student/yliow/Documents/work/projects/latex-yliow latex
 
 cp-python:
 	# should go into /usr/lib/python*.*/site-packages
