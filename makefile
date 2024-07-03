@@ -23,8 +23,9 @@ cp-python:
 	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py            python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/quiz/makequiz.py  python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/checklatexbook.py python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/formatmips/formatmips.py          python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/mips/formatmips/formatmips.py     python/
 
 cp-alex:
+	-rm -rf alex
 	-mkdir alex
 	cp /home/student/yliow/Documents/work/projects/alex05/code/alexcode/python39/alex*.py alex/
