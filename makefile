@@ -11,11 +11,18 @@ cp-latex:
 cp-python:
 	# should go into /usr/lib/python*.*/site-packages
 	-mkdir python
-	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latextool_basic.py python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latexcircuit.py python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/data python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latextool_basic.py      python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latexcircuit.py         python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/data                    python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py              python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py              python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/recognizelatex/recognizelatex.py  python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/gmail3/sendgmail.py               python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/xcapture/xcapture.py              python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py            python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/quiz/makequiz.py  python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/checklatexbook.py python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/formatmips/formatmips.py          python/
 
 cp-alex:
 	-mkdir alex

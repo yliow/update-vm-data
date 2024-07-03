@@ -13,7 +13,7 @@ fileregex = '"*"'
 if len(sys.argv) == 1:
     print ("""USAGE:
 findgrep "[stringregex]" "[file regex]"'
-WARNING: make sure you use quotes is necessary
+WARNING: make sure you use quotes if necessary
     """)
     sys.exit()
 
