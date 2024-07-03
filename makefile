@@ -4,7 +4,9 @@ cp: cp-latex cp-python cp-alex cp-unix
 cp-latex:
 	# should go into /usr/share/texlive/texmf-local/tex/latex/yliow
 	-mkdir latex
-	cp -r /home/student/yliow/Documents/work/projects/latex-yliow latex
+	-mkdir latex/yliow
+	cp -r /home/student/yliow/Documents/work/projects/latex-yliow/* latex/yliow/
+	rm -rf latex/.git
 
 cp-python:
 	# should go into /usr/lib/python*.*/site-packages
@@ -13,6 +15,7 @@ cp-python:
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latexcircuit.py python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/data python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py python/
 
 cp-alex:
 	-mkdir alex
