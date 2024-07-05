@@ -19,6 +19,6 @@ alias t="x-tile g 3 3"
 alias t2="x-tile g 2 2"
 alias t3="x-tile g 3 3"
 alias ex="exit;exit;exit"
-alias download-update-vm="cd ~; rm -rf update-vm; git clone http://github.com/yliow/update-vm; printf '\nlogin as root, go to ~/update-vm, execute update\n\n'"
+alias update-vm="cd ~; rm -rf update-vm; git clone http://github.com/yliow/update-vm; printf '\nlogin as root and execute update (or go to ~/update-vm and execute make\n\n'"
 export EDITOR='emacs'
 umask 077
