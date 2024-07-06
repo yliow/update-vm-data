@@ -20,7 +20,10 @@ alias t2="x-tile g 2 2"
 alias t3="x-tile g 3 3"
 alias ex="exit;exit;exit"
 
-alias alex='python /home/student/.alex/alexrunner.py'
+function update_vm() { printf "login as root and execute update-vm";}
+alias update-vm='update_vm'\n"""
+    
+alias alex='python ~/.alex/alexrunner.py'
 
 export EDITOR='emacs'
 umask 077
