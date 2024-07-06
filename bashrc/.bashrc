@@ -21,7 +21,7 @@ alias t3="x-tile g 3 3"
 alias ex="exit;exit;exit"
 
 function update_vm() { printf "login as root and execute update-vm";}
-alias update-vm='update_vm'\n"""
+alias update-vm='update_vm'
     
 alias alex='python ~/.alex/alexrunner.py'
 
