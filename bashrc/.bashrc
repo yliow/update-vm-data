@@ -20,7 +20,7 @@ alias t2="x-tile g 2 2"
 alias t3="x-tile g 3 3"
 alias ex="exit;exit;exit"
 
-function update_vm() { printf "Login as root and execute update-vm if update-vm is installed. To install update-vm, execute http://github.com/yliow/update-vm, cd update-vm, and as root execute update-vm.\n";}
+function update_vm() { printf "Login as root and execute update-vm if update-vm is installed. To install update-vm, execute\n  su\n  cd /home/student\n  git clone http://github.com/yliow/update-vm\n  cd update-vm\n  python update\n";}
 alias update-vm='update_vm'
     
 alias alex='python ~/.alex/alexrunner.py'
