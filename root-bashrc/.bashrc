@@ -41,4 +41,5 @@ alias ex="exit;exit;exit"
 
 # For update-vm
 function update_vm() { cwd=$(pwd); cd /home/student; rm -rf update-vm; git clone http://github.com/yliow/update-vm; cd update-vm; python update $@; cd "${cwd}";};
-alias update-vm='update_vm
+alias update-vm='update_vm'
+
