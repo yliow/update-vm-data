@@ -552,7 +552,7 @@ def getversion(config):
         return config['DEFAULT']['version']
 
 def doom():
-    print('''DOOM                         
+    print(r'''DOOM                         
                                          )  (  (    (                     
                                          (  )  () @@  )  (( (             
                                      (      (  )( @@  (  )) ) (           
