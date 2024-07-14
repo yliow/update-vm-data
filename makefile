@@ -1,6 +1,8 @@
 cp: cp-latex cp-python cp-alex cp-unix
 	echo "done"
 
+#bashrc/.bashrc is the correct version of /home/student/.bashrc in vm
+
 cp-latex:
 	# should go into /usr/share/texlive/texmf-local/tex/latex/yliow
 	-rm -rf latex
@@ -13,19 +15,26 @@ cp-python:
 	# should go into /usr/lib/python*.*/site-packages
 	-rm -rf python
 	-mkdir python
+	cp -r /home/student/shares/yliow/Documents/work/projects/classwebsite/classwebsite.py      python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py              python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/gmail3/myemail.py                 python/sendgmail.py
+	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/data                    python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latextool_basic.py      python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/latexcircuit.py         python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/latextool/data                    python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py              python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/findgrep/findgrep.py              python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/recognizelatex/recognizelatex.py  python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/xcapture/xcapture.py              python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py            python/
-	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/quiz/makequiz.py  python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/checklatexbook.py python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/latex-templates/quiz/makequiz.py  python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/makemake/makemake.py              python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/mips/formatmips/formatmips.py     python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/myqtmake/myqtmake.py     	   python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/pyutil/pyutil.py      	           python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/recognizelatex/recognizelatex.py  python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py      	   python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/write_answers/write_answers.py    python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/xcapture/xcapture.py              python/
 
 cp-alex:
 	-rm -rf alex
 	-mkdir alex
 	cp /home/student/yliow/Documents/work/projects/alex05/code/alexcode/python39/alex*.py alex/
+
+#emacs/init.el has the correct /home/.emacs.d/init.el in vm
