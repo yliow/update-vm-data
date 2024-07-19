@@ -8,12 +8,14 @@ def quote(s):
     return s
 
 if __name__ == '__main__':
-    pass
-else:
     stringregex = ''
     fileregex = '"*"'
     
     if len(sys.argv) == 1:
+        print ("""USAGE:
+    findgrep "[stringregex]" "[file regex]"'
+    WARNING: make sure you use quotes if necessary
+        """)
         sys.exit()
     
     try:

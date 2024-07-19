@@ -30,7 +30,7 @@ student
 |   |   |
 |   |   +-- a01 (for assignment a01)
 |   |   |   |
-|   |   |   +-- a01q01 (for assignment a01 question q01
+|   |   |   +-- a01q01 (for assignment a01 question q01)
 |   |   |   |
 |   |   |   +-- a01q02
 |   |   |
@@ -56,7 +56,7 @@ student
 [r]eplace email: replace AUTHOR in main.tex with your email address
 [s]ubmit       : select this to submit the *.tar.gz file to alex server
 [t]ar-gzip     : tar and gzip the currect directory and name it submit.tar.gz
-[a]lex update  : update alex (duh)
+[a]lex update  : update alex (duh). This is deprecated: use update-vm.
 [D]oom         
 [l]aundry
 [q]uit         : or Ctrl-C or Ctrl-D to halt
@@ -129,7 +129,7 @@ gzip submit.tar
 """)
     option = input("continue? (y/n) ")
     if option == 'y':
-        fs = ['a.out', '*.exe', 'main.aux', 'main.idx', 'main.log', 'main.out',
+        fs = ['a.out', '*.exe', '*.o', 'main.aux', 'main.idx', 'main.log', 'main.out',
               'makefile.old', 'main.py.err', 'main.py.out', '*.pyc', 'latex.py']
         for f in fs:
             system("find . -name '%s' -delete" % f)
@@ -144,8 +144,17 @@ gzip submit.tar
         input("press enter to continue ... ")
     else:
         print("submit.tar.gz not created")
-        
-def replaceemail(filename='main.tex'):
+#==============================================================================
+# The following re function to modify latex files:
+# -- in all functions, the prototype is
+#    replaceeemail(dest='jdoe@cougars.ccis.edu', -- if none, then use config
+#                                                   or from path
+#                  filename='main.tex',          -- path or list of paths 
+#                 )
+# replaceemail: replace "\renewcommand\AUTHOR{*}" by email in alex's config
+# 
+#==============================================================================
+def replaceemail(filename='thispreamble.tex'): # filename='main.tex'):
     config = readconfig()
     try:
         email = config['DEFAULT']['email']
@@ -177,6 +186,9 @@ def replaceemail(filename='main.tex'):
     
 def update(config):
     """ update """
+    print("updating alex inside alex is deprecated. you should use update-vm.")
+    return
+
     print("\ngimme a sec ...")
     version = readwget('alexversion.txt')
     print("your version is %s" % config['DEFAULT'].get('version', None))
@@ -552,7 +564,7 @@ def getversion(config):
         return config['DEFAULT']['version']
 
 def doom():
-    print(r'''DOOM                         
+    print('''DOOM                         
                                          )  (  (    (                     
                                          (  )  () @@  )  (( (             
                                      (      (  )( @@  (  )) ) (           

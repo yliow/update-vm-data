@@ -7,10 +7,11 @@ linecolor  default=black
 linestyle  default=solid
 """
 
-import math, random, os, string, re, sys
+import math, random, os, string, re, sys, subprocess
 random.seed()
 from math import sin, cos
 
+from pyutil import *
 from subprocess import Popen
 from subprocess import PIPE
 from math import *
@@ -8718,8 +8719,159 @@ def test_preamble(course='ciss240', practice=False):
     honor_statement(white_out=True)
     if practice: practice_disclaimer()
     test_score_table()
+    
+#==============================================================================
+# The following are tools for parsing/modifying latex files for quizzes,
+# assignment, tests, finals.
+#==============================================================================
+'''
+The following from ciss240/q/q0101, etc.
+to find answers in latex file (which are quizzes)
+
+ADD INCORRECt NESTING:
+\begin{answerlong}
+\begin{answercode}
+\end{answerlong}
+\end{answercode}
+'''
+import re
+
+def getcourse(s):
+    p = re.compile(r'\\newcommand\\COURSE\{(ciss\d*|math\d*)\}')
+    return p.search(s).group(1)
+
+def getassessment(s=None):
+    """ get assessment (example: "q0101") from s (a latex string \newcommand\ASSESSMENT{*} or from cwd """
+    if s == None:
+        cwd = os.getcwd()
+        assessment = os.path.split(cwd)[-1]
+        if assessment[0] not in ['q', 'a', 'p', 't', 'f'] and \
+           all(c not in "0123456789-" for c in assessment[1:]):
+            raise Exception("assessment not of the form (qatfp)([0-9]|-)* ... halting")
+        return assessment
+    else:
+        p = re.compile(r'\\newcommand\\ASSESSMENT{(q\d*)}')
+        return p.search(s).group(1)
+
+def getauthor(s):
+    p = re.compile(r'\\renewcommand\\AUTHOR{([a-z@0-9.]*)}')
+    return p.search(s).group(1)
+
+def getanswers(s):
+    p = re.compile(r'\\begin\{answercode\}|\\answerbox\{|\\begin\{answerlong\}')
+    xs = []
+    for m in re.finditer(p, s):
+        subs = s[m.start(0): m.end(0)]
+        if subs == r'\begin{answercode}':
+            i = s[m.end(0):].find(r'\end{answercode}')
+            t = s[m.end(0):][:i]
+        elif subs == r'\answerbox{':
+            i = s[m.end(0):].find('}')
+            t = s[m.end(0):][:i]
+        elif subs == r'\begin{answerlong}':
+            i = s[m.end(0):].find(r'\end{answerlong}')
+            t = s[m.end(0):][:i]
+        t = t.strip()
+        xs.append(t)        
+    return xs
 
 
+def getanswers2(s):
+    p = re.compile(r'\\begin\{answercode\}(.*)\\end\{answercode\}' + '|' + \
+                   r'\\answerbox\{(.*)\}' + '|' + \
+                   r'\\begin\{answerlong\}(.*)\\end\{answerlong\}')
+    xs = []
+    for m in re.finditer(p, s):
+        t = m.group(0)
+        print(m.group(0))
+        print(m.group(1))
+        xs.append(t)
+    return xs
+
+def finddata(thispreamble='questions/thispreamble.tex',
+             main='questions/main.tex'):
+    t = open(thispreamble, 'r').read()
+    m = open(main, 'r').read()
+    return {"course": getcourse(t),
+            "assessment": getassessment(t),
+            "author": getauthor(m),
+            "answers": getanswers(m)}
+
+def addanswers(answers, s):
+    p = re.compile(r'\\begin\{answercode\}\n|\\answerbox\{|\\begin\{answerlong\}\n')
+    xs = []
+    kinds = []
+    indices = []
+    for m in re.finditer(p, s):
+        subs = s[m.start(0): m.end(0)]
+        #print("subs:", subs)
+        #for c in subs:
+        #    print("c: (%s,%s) " % (c, ord(c)), end="")
+        #print()
+        if subs == '\\begin{answercode}\n':
+            i = s[m.end(0):].find(r'\end{answercode}')
+            t = s[m.end(0):][:i]
+            # if ends with '\n', remove last '\n'
+            if t[-1] == '\n': t = t[:-1]
+            kinds.append('answercode')
+        elif subs == r'\answerbox{':
+            i = s[m.end(0):].find('}')
+            t = s[m.end(0):][:i]
+            kinds.append('answerbox')
+        elif subs == '\\begin{answerlong}\n':
+            i = s[m.end(0):].find(r'\end{answerlong}')
+            t = s[m.end(0):][:i]
+            # if ends with '\n', remove last '\n'
+            if t[-1] == '\n': t = t[:-1]
+            kinds.append('answerlong')
+        else:
+            print("ERROR!")
+        
+        indices.append((m.end(0), m.end(0) + i))
+        xs.append(t)        
+
+    #return xs
+    #print("xs:", xs)
+    #print("number indices:", len(indices))
+    #print(indices)
+    #print("number answers:", len(answers))
+    #print(answers)
+    new_s = ""
+    previous_index = 0
+    for index, answer, kind in zip(indices, answers, kinds):
+        if answer.strip() == '':
+            answer = r'\textwhite{A}' # 2022
+        new_s += s[previous_index: index[0]]
+        new_s += answer
+        if kind in ['answercode', 'answerlong']:
+            new_s += '\n'
+        previous_index = index[1]
+    new_s += s[previous_index:]
+    return new_s
+
+def addanswertolatex(answers, src="answers/main.tex", dest="answers/main.tex"):
+    """
+    Example
+    src is "answers/main.tex"
+    dest is "answers/main.tex"
+    """
+    s = readfile(src)
+    s = addanswers(answers, s)
+    writefile(dest, s)
+
+def make_c(dir_=None):
+    cmd = '''rm -rf __pycache__ auto desktop.ini \
+	abc.output texput.log shEsc.tmp \
+	main.tex~ main.log main.aux main.toc main.out main.idx main.ilg \
+	main.vrb main.snm main.nav \
+	main.py.err main.py.out latex.py main.pytxcode \
+	makefile.old missfont.log traceback.txt main.tex.old \
+	submit.tar.gz submit.tar submit \
+        a.out main.exe *.o'''
+    if dir_:
+        cmd = "cd '%s' && %s" % (dir_, cmd)
+    os.system(cmd)
+    
 if __name__ == '__main__':
     argv = sys.argv
     #print("argv:", argv)
