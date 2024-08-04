@@ -39,6 +39,7 @@ cp-python:
 	cp -r /home/student/shares/yliow/Documents/work/projects/myqtmake/myqtmake.py     	   python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/pyutil/pyutil.py      	           python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/recognizelatex/recognizelatex.py  python/
+	cp -r /home/student/shares/yliow/Documents/work/projects/replaceassessment/replaceassessment.py  python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/solutions/solutions.py      	   python/
 	cp -r /home/student/shares/yliow/Documents/work/projects/xcapture/xcapture.py              python/
 

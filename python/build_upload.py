@@ -4,6 +4,7 @@ from pyutil import *
 from latextool_basic import make_c, getassessment
 
 def system(cmd):
+    print(">>>>", cmd)
     return subprocessrun(cmd, shell=True, check=True)
 
 def build_upload(y=True, # True: delete old 'q0101'
@@ -23,11 +24,14 @@ def build_upload(y=True, # True: delete old 'q0101'
                     sys.exit()
             p = subprocessrun('rm -rf %s' % assessment, shell=True)
 
-    system("cd questions && make no_v") # why no pdflatex stdout??
+    # to be safe build_upload will remake main.pdf (redundant?)
+    system("cd questions && make cc && make main.pdf && make c") # why thispreamble.tex.old appears???
+    print("0 .... questions:", flush=True)
+    os.system("cd questions && ls -la")
     make_c(dir_='questions')
     if not os.path.isfile('questions/main.pdf'):
         raise Exception('questions/main.pdf not found')
-    system("rm -f %s.tar %s.tar.gz" % (assessment, assessment))
+    system("rm -rf %s %s.tar %s.tar.gz" % (assessment, assessment, assessment))
     system('mkdir %s' % assessment)
     system('cp -r questions/* %s' % assessment)
     system("tar -cvf %s.tar %s" % (assessment, assessment))
@@ -35,10 +39,10 @@ def build_upload(y=True, # True: delete old 'q0101'
     if not os.path.isfile('%s.tar.gz' % assessment):
         raise Exception('%s.tar.gz not found' % assessment)
     
-    print(">>>> created %s.tar.gz" % assessment)
+    #print(">>>> created %s.tar.gz" % assessment)
     os.system("rm -rf %s" % assessment)             # rm -rf q0101
-    p = system('tar -ztvf %s.tar.gz' % assessment)
-    print(p.stdout)
+    #p = system('tar -ztvf %s.tar.gz' % assessment)
+    #print(p.stdout)
     
 if __name__ == '__main__':
     build_upload()

@@ -24,16 +24,23 @@ def subprocessrun(args,
 def subprocessrun2(args,
                    check=True,
                    shell=False):
+    """
+    Same as subprocessrun except that the exception message is from
+    stderr. (The stderr is from bash is more helpful than subprocess'
+    default exception msg.)
+    """
     if not check:
-        p = subprocess.run(args,
-                           capture_output=True, text=True,
-                           check=False, shell=shell)
+        return subprocess.run(args,
+                              capture_output=True, text=True,
+                              check=False, shell=shell)
     else:
         p = subprocess.run(args,
                            capture_output=True, text=True,
                            check=False, shell=shell)
         if p.returncode != 0:
             raise Exception("returncode: %s\nstdout:%s\nstderr:%s" % (p.returncode, p.stdout, p.stderr))
+        else:
+            return p
 
 
 def myeval(dir_=None, package='q0001', module='main', func_name='question'):

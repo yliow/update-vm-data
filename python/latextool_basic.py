@@ -1728,6 +1728,7 @@ class RectContainer(BaseNode):
         else:
             return self.rects[0] # ????
     def __setitem__(self, i, r):
+        i = int(i)
         self.rects[i] = r
     def __str__(self):
         s = ''
@@ -2575,15 +2576,16 @@ class Array2d(RectContainer):
                  linewidth=L, width=1, height=1, linecolor='black'):
         RectContainer.__init__(self, x=x, y=y, align='left', direction='top-to-bottom')
         for row in xs:
+            #print("row:", row)
+            #input("2 ...")
             c = RectContainer(x=0, y=0, align='bottom', direction='left-to-right')
             for x in row:
                 c += Rect2(x0=0, y0=0, x1=width, y1=height,
                            linewidth=linewidth, linecolor=linecolor,
                            label=r'{\texttt{%s}}' % x)
             self += c
-        for c in self:
+        for c in self.rects: # 2024/07/23: change self to self.rects (otherwise infinite loop)
             c.x = c.x0; c.y = c.y0; c.layout()
-
 
 """
 class Array2d: # (RectContainer): # Maybe subclass RectContainer??
@@ -3601,10 +3603,17 @@ def automata(
             print ("v[pos]: %s" % v['pos'])
             raise
         if minimum_size == None:
-            node_str += r"\node[state%(initial)s%(accept)s] (%(name)s) at %(pos)s {%(label)s};" % d
+            node_ = r"\node[state%(initial)s%(accept)s]" % d
         else:
             d.update({'minimum_size':minimum_size})
-            node_str += r"\node[state%(initial)s%(accept)s, minimum size=%(minimum_size)s] (%(name)s) at %(pos)s {%(label)s};" % d
+            node = r"\node[state%(initial)s%(accept)s, minimum size=%(minimum_size)s]" % d
+        name_ = r"(%(name)s)" % d
+        pos_ = r"%(pos)s" % d
+        label_ = r"{%(label)s}" % d
+        node_str += r"%(node)-30s %(name)-10s at %(pos)-10s %(label)-10s;" % {'node':node_,
+                                                                  'name':name_,
+                                                                  'pos':pos_,
+                                                                  'label':label_}
         node_str += '\n'
 
     def edge_shape(q0,q1,node,e):
@@ -3660,9 +3669,16 @@ def automata(
 
         d = {'q1':q1, 'q2':q2, 'label':v, 'edge':edge_shape(q1,q2,node,e)}
         if q1==q2:
-            edge_str += r"(%(q1)s) edge %(edge)s node {%(label)s} ()" % d
+            q2_ = "()"
         else:
-            edge_str += r"(%(q1)s) edge %(edge)s node {%(label)s} (%(q2)s)" % d
+            q2_ = r"(%(q2)s)" % d
+        q1_ = "(%(q1)s)" % d
+        edge_ = "edge %(edge)s" % d
+        node_ = "node {%(label)s}" % d
+        edge_str += r"%(q1_)-10s %(edge_)-40s %(node_)-20s %(q2_)-10s" % {'q1_':q1_,
+                                                                          'edge_':edge_,
+                                                                          'node_':node_,
+                                                                          'q2_':q2_}
         edge_str += '\n'
     return r'''
 \begin{center}
@@ -8804,7 +8820,6 @@ def addanswers(answers, s):
     indices = []
     for m in re.finditer(p, s):
         subs = s[m.start(0): m.end(0)]
-        #print("subs:", subs)
         #for c in subs:
         #    print("c: (%s,%s) " % (c, ord(c)), end="")
         #print()
@@ -8815,14 +8830,58 @@ def addanswers(answers, s):
             if t[-1] == '\n': t = t[:-1]
             kinds.append('answercode')
         elif subs == r'\answerbox{':
-            i = s[m.end(0):].find('}')
+            """
+                  ... \answerbox{...........\}..\}.....} ...
+                                 ^                     ^
+                                 |                     |
+                                 m.end(0)              m.end(0) + i
+            """
+            print("================================")
+            print("subs:", subs)
+            #i = s[m.end(0):].find('}') # CHANGED 2024/08/01: Ignore "\}"
+            i0 = m.end(0)
+            #input("1 ... >>>> s[i0:i0+20]: " + s[i0:i0+20])
+            #i = 0
+            #while 1:
+            #    print("===================================")
+            #    print("i0:", i0)
+            #    print("i:", i)
+            #    i = s[i0 + i:].find('}')
+            #    print("i:", i)
+            #    print("s[i0:i0+50]:", s[i0 + i:i0+70])
+            #    print("2 ... >>>> s[i0:][i - 30:i + 30]:", s[i0:][IFELSE(i-30<0, 0, i - 30):i+30]) # ??? seems to be earlier substr?
+            #    print("3 ... >>>> s[i0:][i-1:i+1]:", s[i0:][i - 1 : i + 1])
+            #    print("i:", i)
+            #    input("?")
+            #    if s[i0:][i - 1] != '\\':
+            #        break
+            #    print("i:", i)
+            #    i = i + 1
+            #    print("i:", i)
+            #t = s[m.end(0):][:i]
+            #input("3 ... >>>> t: " + t)
+
+            # 2024/08/01: NEW VERSION
+            i = 1
+            while 1:
+                if s[i0 + i] == '}' and s[i0 + i - 1] != '\\':
+                    break
+                i += 1
             t = s[m.end(0):][:i]
+            print("i:", i)
+            print("t:", t)
             kinds.append('answerbox')
         elif subs == '\\begin{answerlong}\n':
             i = s[m.end(0):].find(r'\end{answerlong}')
+            if i == -1:
+                raise Exception(r"cannot find \end{answerlong}")
             t = s[m.end(0):][:i]
             # if ends with '\n', remove last '\n'
-            if t[-1] == '\n': t = t[:-1]
+            if t == "":
+                pass
+                #raise Exception("???\n\n[%s]\n\n[%s]" % (s[m.start(0):m.start(0) + 70], s[m.end(0):m.end(0) + 70]))
+            elif t[-1] == '\n':
+                t = t[:-1]
             kinds.append('answerlong')
         else:
             print("ERROR!")
@@ -8839,13 +8898,22 @@ def addanswers(answers, s):
     new_s = ""
     previous_index = 0
     for index, answer, kind in zip(indices, answers, kinds):
+        #print("+++++++++++++++++++++++++++++")
+        #print("index:", index)
+        #print("answer:", answer)
+        #print("kind:", kind)
         if answer.strip() == '':
-            answer = r'\textwhite{A}' # 2022
+            if kind == 'answercode':
+                pass
+            else:
+                answer = r'\textwhite{A}' # 2022 ... note: problem for answercode. created if-else.
         new_s += s[previous_index: index[0]]
         new_s += answer
         if kind in ['answercode', 'answerlong']:
             new_s += '\n'
+        #print("new_s:", new_s)
         previous_index = index[1]
+        #input("?")
     new_s += s[previous_index:]
     return new_s
 

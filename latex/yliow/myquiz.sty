@@ -136,49 +136,12 @@ Score: \answerbox{\POINTS}
 \newcommand\ANSWER{\textsc{Answer:}\vspace{-2mm}}
 
 \newcommand\LATEXHELPTHREEFIVEZERO{
-In the \texttt{answerlong}, you will need to enter \LaTeX\ code for
-mathematical notation.
-Some incomplete or wrong answers are included in the \texttt{answerlong}
-so that all you need to do is to make minor modifications.
-Note that \texttt{answercode} is for writing code/pseudocode and
-does not require mathematical notation.
-
-Here are some pointers on writing math \LaTeX\ code:
-\begin{enumerate}[nosep]
-
-\item For \lq\lq inline math mode", use \texttt{\$...\$}.
-Example: \texttt{\$x\ =\ 42\ +\ y\$} gives you $x = 42 + y$.
-(Mathematical expressions have their own spacing, special symbols,
-and are in italics.)
-
-\item For \lq\lq display math mode", use \texttt{\textbackslash[...\textbackslash]}.
-Example: \texttt{\textbackslash[\ x\ =\ 42 \textbackslash]} gives you \[ x = 42 \]
-(Display math mode is used for emphasis.)
-
-\item Here's how you do fractions:
-\texttt{\$\textbackslash frac\{1\}\{2\}\$} gives you $\frac{1}{2}$.
-
-\item Here's how you do subscript:
-\texttt{\$t\_\{123\}\$} gives you $t_{123}$. 
-
-\item Here's how you do superscript:
-\texttt{\$n\^{}\{123\}\$} gives you $n^{123}$.
-\end{enumerate}
-
-The above information should be enough for this quiz.
-For more information on \LaTeX\, you can go to
-\href{http://bit.ly/yliow0/}{my website},
-click on Yes you are one of my students, scroll down to the Tutorials
-section and click on latex.pdf.
-}
-
-\newcommand\LATEXHELPTHREEFIVEZEROB{
-In the \texttt{answerlong}, you will need to enter \LaTeX\ code for
-mathematical notation.
-Some incomplete or wrong answers are included in the \texttt{answerlong}
-so that all you need to do is to make minor modifications.
-Note that \texttt{answercode} is for writing code/pseudocode and
-does not require mathematical notation.
+Note that \texttt{answercode} is for writing code/pseudocode/simple answers
+and does not require mathematical notation.
+For \texttt{answerlong}, you can enter \LaTeX\ code for mathematical
+notation.
+Some incomplete/wrong answers are included in the \texttt{answerlong} --
+you will need make modifications.
 
 Here are some pointers on writing math \LaTeX\ code:
 \begin{enumerate}[nosep]
@@ -203,13 +166,22 @@ Example: \texttt{\textbackslash[\ x\ =\ 42 \textbackslash]} gives you \[ x = 42 
   
 \item Here's how you do log:
   \texttt{\$\textbackslash lg n\$} gives you $\lg n$.
+
+\item Example:
+  \texttt{\$T(n) = \textbackslash frac\{1\}\{2\} t\_\{42\} n\^{}3 \textbackslash lg n = An\^{}3 \textbackslash lg n = O(n\^{}3 \textbackslash lg n)\$} gives you
+  $T(n) = \frac{1}{2} t_{42} n^3 \lg n = An^3 \lg n = O(n^3 \lg n)$.
 \end{enumerate}
 
 The above information should be enough for this quiz.
 For more information on \LaTeX\, you can go to
 \href{http://bit.ly/yliow0/}{my website},
-click on Yes you are one of my students, scroll down to the Tutorials
+scroll down to the Tutorials
 section and click on latex.pdf.
+}
+
+\newcommand\LATEXHELPTHREEFIVEZEROB{
+  \LATEXHELPTHREEFIVEZEROB
+  (*** Deprecated. Use LATEXHELPTHREEFIVEZERO *** )
 }
 
 
