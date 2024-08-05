@@ -82,28 +82,38 @@ Q{\theqc}.
 }
 {}
 
+%==============================================================================
+% ADDED 2021/09/09 -- DEPCRECATED ... SEE BELOW
+%\renewcommand\boxpar[1]{
+% \[
+%  \framebox[\textwidth][c] {
+%   \parbox[]{\dimexpr\textwidth - 0.25cm} {#1}
+%  }
+% \]
+%}
+%
+%\NewEnviron{answerlong}%
+%  {\vspace{-1mm} \global\let\tmp\BODY\aftergroup\doboxpar}
+%
+%\newcommand\doboxpar{%
+%  \let\quote=\oldquote
+%  \let\endquote=\endoldquote
+%  \boxpar{\tmp}
+%}
 
-
-
-% ADDED 2021/09/09
-\renewcommand\boxpar[1]{
- \[
-  \framebox[\textwidth][c] {
-   \parbox[]{\dimexpr\textwidth - 0.25cm} {#1}
+% 2024/08/04: new version of answerlong that allows pycode
+% https://tex.stackexchange.com/questions/723801/pythontex-in-newenviron/723812#723812
+\newsavebox\foobox
+\newenvironment{answerlong}
+  {%
+    \begin{lrbox}{\foobox}%
+      \begin{minipage}{\dimexpr\textwidth-.25cm}%
   }
- \]
-}
-
-\NewEnviron{answerlong}%
-  {\vspace{-1mm} \global\let\tmp\BODY\aftergroup\doboxpar}
-
-\newcommand\doboxpar{%
-  \let\quote=\oldquote
-  \let\endquote=\endoldquote
-  \boxpar{\tmp}
-}
-
-
+  {%
+      \end{minipage}%
+    \end{lrbox}%
+    \[\framebox[\textwidth][c]{\usebox\foobox}\]%
+  }
 
 
 \newenvironment{mcq}[7]%

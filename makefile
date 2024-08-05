@@ -6,7 +6,7 @@
 # emacs/opam-user-setup.el 
 # latex/*                                 CHANGE TO COPY FROM update-my-vm-data?
 
-cp: cp-latex cp-python cp-alex cp-unix
+cp: cp-latex cp-python cp-alex cp-emacs cp-bashrc
 	@printf "\n>>>> done\n\n"
 
 cp-bashrc:
