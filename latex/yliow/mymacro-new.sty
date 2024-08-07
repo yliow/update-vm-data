@@ -119,10 +119,14 @@
 
 \theoremstyle{definition}
 
-\newtheorem{defn}{Definition}  \numberwithin{defn}{section}
-\newtheorem{eg}{Example}       \numberwithin{eg}{section}
-\newtheorem{ex}{Exercise}      \numberwithin{ex}{section}
-\newtheorem{soln}{Solution}    \numberwithin{soln}{section}
+\newtheorem{defn}{Definition}        \numberwithin{defn}{section}
+\newtheorem{eg}{Example}             \numberwithin{eg}{section}
+\newtheorem{ex}{Exercise}            \numberwithin{ex}{section}
+\newtheorem{soln}{Solution}          \numberwithin{soln}{section}
+\newtheorem{qn}{Question}            \numberwithin{qn}{section}
+\newtheorem{conjecture}{Conjecture}  \numberwithin{conjecture}{section}
+\newtheorem{axiom}{Axiom}            \numberwithin{axiom}{section}
+
 \newtheorem{notation}{Notation}
 \newtheorem{warning}{Warning}
 \newtheorem{rem}{Remark}
@@ -455,3 +459,13 @@ prepare_solutions()}
 }
 
 \newcommand\TURNPAGE{\textsc{(Turn Page)}}
+
+%===============================================================================
+% Used in ciss451-book-project-mine
+% Might be temporary???
+%===============================================================================
+\newcommand\SIDEBAR[1]  {\tinysidebar{#1}}
+\newcommand\BEGINTODO   {\SIDEBAR{BEGIN TODO}}
+\newcommand\ENDTODO     {\SIDEBAR{END TODO}}
+\newcommand\BEGINCOMMENT{\SIDEBAR{BEGIN COMMENT}}
+\newcommand\ENDCOMMENT  {\SIDEBAR{END COMMENT}}
