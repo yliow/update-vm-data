@@ -1,19 +1,15 @@
 #!/usr/bin/python
 
+"""
+USAGE:
+
+    solutions make-ex group-theory-exercise-0
+    solutions make-ex prop:group-theory-isomorphism-equivalence-relation
+"""
+
 import sys
 import os, glob
 from pyutil import *
-
-#def readfile(filename):
-#    f = open(filename, 'r')
-#    s = f.read()
-#    f.close()
-#    return s
-
-#def writefile(filename, s):
-#    f = open(filename, 'w')
-#    f.write(s)
-#    f.close()
 
 def check():
     """
