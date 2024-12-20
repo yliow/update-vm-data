@@ -83,7 +83,7 @@ def coordinate(x, y, name):
 #==============================================================================
 def next_to(s, # a tikz string
             name, directions):
-    p = re.compile("at\s*\([0-9]*(.[0-9]*)?\s*\,\s*[0-9]*(.[0-9]*)?\s*\)")
+    p = re.compile(r"at\s*\([0-9]*(.[0-9]*)?\s*\,\s*[0-9]*(.[0-9]*)?\s*\)")
     s =  re.sub(p, "", s)
     try:
         d,dist = directions
@@ -3000,24 +3000,24 @@ def chunkedarray(x=0, y=0, cellwidth=1, cellheight=1,
         if label != '':
             if dy > 0:
                 if abs(x0 - x1) >= 0.5:
-                    s += '\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
                      (x0+0.1, y+cellheight+0.1,
                       labelx, labely - 0.6 * dy,
                       x1-0.1, y+cellheight+0.1)
-                    s += '\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
                      (labelx, labely - 0.6 * dy,
                       labelx, labely - 0.3)
                 else:
-                    s += '\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
                      (labelx, y+cellheight+0.1, labelx, labely - 0.3)
             else:
                 if abs(x0 - labelx) >= 0.3:
-                    s += '\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
                          (x0+0.1, y-0.1, labelx, y-cellwidth/2, x1-0.1, -0.1)
-                    s += '\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
                          (labelx, y-cellwidth/2, labelx, labely + 0.3)
                 else:
-                    s += '\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
                          (labelx, y-0.1, labelx, labely + 0.3)
     # draw pipes
     # correct case of multiple consecutive empty lists (can be a problem is there are too many ...)
@@ -4150,15 +4150,15 @@ class Matrix:
                 else:
                     aminor = self.minor(0,c)
                     computation0.append(
-                        "(-1)^{1+%s} (%s) \det %s" \
+                        r"(-1)^{1+%s} (%s) \det %s" \
                         % (c+1, a, latex_bmatrix(aminor))
                         )
                     computation1.append(
-                        "(%s) (%s) \det %s" \
+                        r"(%s) (%s) \det %s" \
                         % ((-1)**(1+c+1), a, latex_bmatrix(aminor))
                         )
                     computation2.append(
-                        "(%s) \det %s" \
+                        r"(%s) \det %s" \
                         % ((-1)**(1+c+1) * a, latex_bmatrix(aminor))
                         )
                     if aminor.rowsize == 1:
@@ -4173,20 +4173,20 @@ class Matrix:
             computation3 = " + ".join(computation3)
             
             string = r"\det " + latex_bmatrix(self)
-            string += "&= " + computation0 + "\\\\ \n" +\
-                      "&= " + computation1 + "\displaybreak[0] \\\\ \n" +\
-                      "&= " + computation2 + "\displaybreak[0] \\\\ \n"
+            string += "&= " + computation0 + r"\\\\ \n" +\
+                      "&= " + computation1 + r"\displaybreak[0] \\\\ \n" +\
+                      "&= " + computation2 + r"\displaybreak[0] \\\\ \n"
 
             if computation3 != "":
-                string += "&= " + computation3 + "\displaybreak[0] \\\\ \n"
+                string += "&= " + computation3 + r"\displaybreak[0] \\\\ \n"
             
             if len(computation4) > 0:
                 s = sum(computation4)
                 computation4 = " + ".join([xxx(_) for _ in (computation4)])
                 computation5 = str(s)
-                string += "&= " + computation4 + "\displaybreak[0] \\\\ \n"
+                string += "&= " + computation4 + r"\displaybreak[0] \\\\ \n"
                 if computation4 != computation5:
-                    string += "&= " + computation5 + "\displaybreak[0] \\\\ \n"
+                    string += "&= " + computation5 + r"\displaybreak[0] \\\\ \n"
                 
             Matrix.latex += string
 
@@ -4208,8 +4208,8 @@ class Matrix:
                     v2 = Matrix.lookup[str(aminor)]
                     yyy.append("(%s)%s" % (v1, xxx(v2)))
                 yyy = " + ".join(yyy)
-                Matrix.latex += "&= " + yyy + "\displaybreak[0] \\\\ \n"
-                Matrix.latex += "&= %s \\\\\n" % Matrix.lookup[str(self)]
+                Matrix.latex += "&= " + yyy + r"\displaybreak[0] \\\\ \n"
+                Matrix.latex += r"&= %s \\\\\n" % Matrix.lookup[str(self)]
                 
             return s
 
@@ -4420,8 +4420,8 @@ x y label
                 d['pin_message'] = "$y=%s$" % argdict.get('pin_message', d['expr'])
                 d['pin_message'] = d['pin_message'].replace("**", "^") 
                 d['pin_message'] = d['pin_message'].replace("*", " ")
-                d['pin_message'] = d['pin_message'].replace("log(", "\log(")
-                d['pin_message'] = d['pin_message'].replace("sin(", "\sin(")
+                d['pin_message'] = d['pin_message'].replace("log(", r"\log(")
+                d['pin_message'] = d['pin_message'].replace("sin(", r"\sin(")
                 if d['pin_message'] == '$y=$': d['pin_message'] = ''
                 d['pin_x'] = argdict.get('pin_x', d['maxx'] * 0.8) # depends on maxx
                 x = round(d['pin_x'], 4) # 2023/5/7
@@ -4573,7 +4573,7 @@ def graph(shape='circle',
     s = ''
     for line_index, line in enumerate(layout_lines):
         for node in nodes:
-            p = re.compile('(^| )%s(\Z| )' % node)
+            p = re.compile(r'(^| )%s(\Z| )' % node) # 2024/12/19: make string raw
             search = p.search(line)
             if search:
                 ind = search.start()
@@ -7871,19 +7871,19 @@ def heapfilepage(p,
         return r
 
     # free offset 
-    c0 = merge(p, nrows - 1, ncols - 2, label='{\small %s}' % free_offset)
+    c0 = merge(p, nrows - 1, ncols - 2, label=r'{\small %s}' % free_offset)
 
     # size of slots
-    c1 = merge(p, nrows - 1, ncols - 4, label='{\small %s}' % len(slots))
+    c1 = merge(p, nrows - 1, ncols - 4, label=r'{\small %s}' % len(slots))
 
     # offset,length
     k = nrows * ncols - 6
     for offset, length in slots:
         #if offset == -1: continue
         r, c = k / ncols, k % ncols
-        c2 = merge(p, r, c, label='{\small %s}' % length); k -= 2
+        c2 = merge(p, r, c, label=r'{\small %s}' % length); k -= 2
         r, c = k / ncols, k % ncols  
-        c3 = merge(p, r, c, label='{\small %s}' % offset); k -= 2
+        c3 = merge(p, r, c, label=r'{\small %s}' % offset); k -= 2
         #x0,y0 = c3.topleft(); x0 += 0.2; y0 -= 0.2
         #r,c = offset / ncols, offset % ncols
         #p += Line(points=[(x0,y0), C[r][c].center()], endstyle='>')
@@ -8335,9 +8335,9 @@ def spfp(p, x=0, y=0, s='0', ebias='11111111', f='11111111111111111111111'):
     c += Rect2(x0=0, y0=0, x1=2, y1=0.6, label=ebias)
     c += Rect2(x0=0, y0=0, x1=5, y1=0.6, label=f)
     p += c
-    x,y = c[0].bottom(); X = POINT(x=x, y=y, r=0, label='{\scriptsize 1 bit}', anchor='north'); p += str(X)        
-    x,y = c[1].bottom(); X = POINT(x=x, y=y, r=0, label='{\scriptsize 8 bits}', anchor='north'); p += str(X)        
-    x,y = c[2].bottom(); X = POINT(x=x, y=y, r=0, label='{\scriptsize 23 bits}', anchor='north'); p += str(X)        
+    x,y = c[0].bottom(); X = POINT(x=x, y=y, r=0, label=r'{\scriptsize 1 bit}', anchor='north'); p += str(X)        
+    x,y = c[1].bottom(); X = POINT(x=x, y=y, r=0, label=r'{\scriptsize 8 bits}', anchor='north'); p += str(X)        
+    x,y = c[2].bottom(); X = POINT(x=x, y=y, r=0, label=r'{\scriptsize 23 bits}', anchor='north'); p += str(X)        
     return c
 
 #==============================================================================
@@ -8584,6 +8584,9 @@ def ciss240_written_test_instructions():
     Binary search refers to the binary search algorithm in
     our notes.
 
+\li You are not allowed to use any \cpp\ syntax or functions not
+    mentioned in my notes.
+    
 \end{enumerate}
     ''')
 
@@ -8740,7 +8743,7 @@ def test_preamble(course='ciss240', practice=False):
 # The following are tools for parsing/modifying latex files for quizzes,
 # assignment, tests, finals.
 #==============================================================================
-'''
+r'''
 The following from ciss240/q/q0101, etc.
 to find answers in latex file (which are quizzes)
 

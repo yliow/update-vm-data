@@ -289,22 +289,25 @@ For instance quiz q0102 is the second (02) quiz on the first
 Quizzes are usually printed and handed out in class.
 <br><br>
     '''
-    if course_number in ['ciss145', 'ciss240']:
+    if course_number in []: # ['ciss145', 'ciss240']:
         if course_number == 'ciss240':
             ext = 'cpp'
         else:
             ext = 'py'
         return '''
-If the link is of the form q*.tar.gz, say q1201.tar.gz, then
+Suppose the link is of the form q*.tar.gz, say q1201.tar.gz. Do the following:
     <ul>
-    <li> Run firefox in your virtual machine and you download the file from
-    the class website. This will probably be in your Downloads directory.
+    <li> Run firefox in your virtual machine and download the file from
+    the class website.
+    q1201.tar.gz will probably be downloaded into your Downloads directory.
     Execute "cp ~/Downloads/q1201.tar.gz ~/ciss240/q/" if your ciss240 is in your home directory.
     Go to your ciss240/q/ directory.
     <li> Execute "gunzip q1201.tar.gz" to get q1201.tar.
     <li> Execute "tar -xvf q1201.tar" to get directory q1201.
     <li> Go into directory q1201.
-    <li> Enter your answer(s) in main.txt.
+    <li> Execute "make" to compile and view the pdf.
+        Enter your answer(s) in main.tex and execute "make" to recompile and view the pdf.
+        (There are instructions in the pdf.)
     <li>Run
     <a href='https://docs.google.com/document/d/1KeA5yUidxdIbImR7OlvEChweyhMuuBdIyv9NSUxuLoI/edit?usp=sharing'>alex</a>
     to submit your work.
@@ -313,22 +316,26 @@ If the link is of the form q*.tar.gz, say q1201.tar.gz, then
 ''' % {'course_number': course_number.lower()}
     else:
         return '''
-For higher level class, if the link is of the form q*.tar.gz, say q1234.tar.gz, then
+Suppose the link is of the form q*.tar.gz, say q1201.tar.gz. Do the following:
     <ul>
-    <li> Run firefox in your virtual machine and you download the file from
+    <li> Run firefox in your virtual machine and download the file from
     the class website.
-    <li> Execute "gunzip q1234.tar.gz" to get
-    q1234.tar.
-    <li> Execute "tar -xvf q1234.tar" to get directory q1234.
-    <li> Go into directory q1234.
-    <li> If the quiz requires producing a pdf file, you open main.tex and
-    insert your answers. The instructions will be in the main.pdf.
+    q1201.tar.gz will probably be downloaded into your Downloads directory.
+    Move q1201.tar.gz to your quiz folder by 
+    executing "mv ~/Downloads/q1201.tar.gz ~/%(course_number)s/q/" 
+        if your %(course_number)s directory is in your home directory.
+        Go to your %(course_number)s/q directory
+    <li> Execute "gunzip q1201.tar.gz" to get q1201.tar.
+    <li> Execute "tar -xvf q1201.tar" to get directory q1201.
+    <li> Go into directory q1201.
+    <li> Execute "make" to compile and view the pdf.
+        Enter your answer(s) in main.tex.
+        (There are instructions in the pdf.)
+        Execute "make" to recompile and view the pdf.        
     <li>
-    After you are done, make sure you remove any executables (example: a.out).
-    There should be a makefile in the directory.
     Run
     <a href='https://docs.google.com/document/d/1KeA5yUidxdIbImR7OlvEChweyhMuuBdIyv9NSUxuLoI/edit?usp=sharing'>alex</a>
-    to submit your work..
+    to submit your work.
     </ul>
 ''' % {'course_number': course_number.lower()}
 

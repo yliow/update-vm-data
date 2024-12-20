@@ -410,7 +410,7 @@ def getcourse(config):
     '''
     
 def getdefaultassessment():
-    p = re.compile('/((a|q|p|t)[0-9]+[-0-9a-z]*)')
+    p = re.compile('/((a|q|p|t|f)[0-9]+[-0-9a-z]*)')
     s = os.getcwd()
     srch = p.search(s)
     t = None

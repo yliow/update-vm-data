@@ -1,0 +1,124 @@
+% For math notation 
+
+%===================================================================
+% General
+%===================================================================
+\newcommand\defeq{\overset{\operatorname{def}}{=}} % = with "def"
+\newcommand\THEREFORE{\therefore\,\,\, }
+
+\newcommand\suchthat{ \mid }
+\newcommand\st{ \mid }
+\newcommand\ep{\epsilon}
+\newcommand\istar{\implies\hspace{-10pt}^*\hspace{5pt}} % =>*
+
+%===================================================================
+% Math: logic
+%===================================================================
+\newcommand\true{\operatorname{true}}
+\newcommand\false{\operatorname{false}}
+\newcommand\TRUE{\operatorname{TRUE}}
+\newcommand\FALSE{\operatorname{FALSE}}
+\newcommand\T{\operatorname{T}}
+\newcommand\F{\operatorname{F}}
+\newcommand\AND{\operatorname{AND}}
+
+%===================================================================
+% Math: sets
+%===================================================================
+\newcommand\R{\mathbb R}
+\newcommand\RR{\mathbb R}
+\newcommand\Z{\mathbb Z}
+\newcommand\ZZ{\mathbb Z}
+\newcommand\Q{\mathbb Q}
+\newcommand\QQ{\mathbb Q}
+\newcommand\N{\mathbb N}
+\newcommand\NN{\mathbb N}
+\newcommand\C{\mathbb C}
+\newcommand\CC{\mathbb C}
+\newcommand\K{\mathcal K}
+\newcommand\KK{\mathcal K}
+\newcommand\FF{\mathbb F}
+\newcommand\GF{{\operatorname{GF}}}
+
+\newcommand\sdiff{\vartriangle}   % symmetric difference
+\newcommand\id{\operatorname{id}} % identity
+\newcommand\im{\operatorname{im}} % image
+
+%===================================================================
+% Probability 
+%===================================================================
+\newcommand\HEAD{\mathsc{Head}}
+\newcommand\TAIL{\mathsc{Tail}}
+\newcommand\ONE{\mathsc{One}}
+\newcommand\TWO{\mathsc{Two}}
+\newcommand\THREE{\mathsc{Three}}
+\newcommand\FOUR{\mathsc{Four}}
+\newcommand\FIVE{\mathsc{Five}}
+\newcommand\SIX{\mathsc{Six}}
+
+%===================================================================
+% Crypto
+%===================================================================
+\newcommand\Plaintexts{\mathcal P} % set of plaintext
+\newcommand\Ciphertexts{\mathcal C} % set of ciphertext
+
+%===================================================================
+% Math: graphs
+%===================================================================
+\newcommand\ideg{\operatorname{in-deg}}
+\newcommand\odeg{\operatorname{out-deg}}
+\newcommand\len{\operatorname{len}}
+
+%===================================================================
+% Math: languages/automata
+%===================================================================
+\newcommand\Sigmae{\Sigma_{\epsilon}}
+\newcommand\accept{{\operatorname{accept}}}
+\newcommand\reject{{\operatorname{reject}}}
+\newcommand\Reg{{\operatorname{Reg}}}
+\newcommand\token[1]{{\langle #1 \rangle}}
+
+\newcommand\nR{\slash \hskip -6pt R}
+
+\newcommand\TIME{\mathsc{Time}}
+\newcommand\PP{\mathsc{P}}
+\newcommand\CLIQUEPROBLEM{\mathsc{CliqueProblem}}
+\newcommand\CLIQUE{\mathsc{Clique}}
+\newcommand\SUBSETSUMPROBLEM{\mathsc{SubsetSumProblem}}
+\newcommand\SUBSETSUM{\mathsc{SubsetSum}}
+
+\newcommand\derive{\vdash}
+
+\newcommand\NULLABLES{\mathsc{Nullables}}
+\newcommand\TERMINAL{\mathsc{Terminal}}
+
+\newcommand\NTIME{\operatorname{NTIME}}
+\newcommand\POLY {\operatorname{P}}
+\newcommand\NP   {\operatorname{NP}}
+
+\newcommand\TM{\mathsc{TM}}
+\newcommand\DTM{\mathsc{DTM}}
+\newcommand\NTM{\mathsc{NTM}}
+\newcommand\DFA{\mathsc{DFA}}
+\newcommand\NFA{\mathsc{NFA}}
+\newcommand\Regex{\mathsc{Regex}}
+\newcommand\PDA{\mathsc{PDA}}
+\newcommand\ACCEPT{\mathsc{Accept}}
+\newcommand\LANG{\mathsc{Lang}}
+\newcommand\HALT{\mathsc{Halt}_{\TM}}
+\newcommand\EMPTY{\mathsc{Empty}}
+\newcommand\EMPTYPROBLEM{\mathsc{EmptyProblem}}
+\newcommand\DIAGONAL{\mathsc{Diagonal}}
+
+\newcommand\DOLLAR{{\text{\texttt{\$}}}}
+\newcommand\BANG{{\text{\texttt{!}}}}
+\newcommand\STAR{{\text{\texttt{*}}}}
+
+%===================================================================
+% Math: number theory
+%===================================================================
+\newcommand\floor[1]{ \left\lfloor #1 \right\rfloor }
+\newcommand\ceiling[1]{ \left\lceil #1 \right\rceil }
+
+\newcommand\myfloor[1]{ \floor{#1} }
+\newcommand\myceil[1]{ \ceiling{#1} }
