@@ -60,7 +60,20 @@ def ahref(BASE, text, from_file=None, to_file=None, url=None):
 
 
 def ul(xs):
-    ys = [('<li> %s\n' % x) for x in xs]
+    ys = []
+    in_ul = 0
+    for x in xs:
+        if x.startswith('*'):
+            if in_ul == 0:
+                ys.append("<p>%s</p><ul>" % x[1:])
+            else:
+                ys.append("</ul><p>%s</p><ul>" % x[1:])
+            in_ul += 1
+        else:
+            ys.append('<li> %s\n' % x)
+            #ys = [('<li> %s\n' % x) for x in xs]
+    if in_ul > 0:
+        ys.append('</ul>')
     z = '\n'.join(ys)
     return '''
 <ul>
@@ -390,8 +403,10 @@ def classwebsite(BASE,
     #xs = [ahref(BASE, a, b, c) for a,b,c in notes]
     xs = []
     for note in notes:
-        print("note:", note)
-        if len(note) == 3:
+        print("note:", note, len(note))
+        if len(note) == 1:
+            xs.append('*' + note[0]) # * means do not <li> in a <p>
+        elif len(note) == 3:
             a,b,c = note
             xs.append(ahref(BASE, a, b, c))
         elif len(note) == 6:
@@ -400,7 +415,7 @@ def classwebsite(BASE,
             xs.append(ahref(BASE, a, b, c) + ' | ' + ahref(BASE, d, e, f))
         else:
             print(note)
-            raise Exception("note length not 3 or 6")
+            raise Exception("note length not 1 or 3 or 6")
     notes_html = ul(xs)
 
     videos_html = get_videos_html(videos) # ???

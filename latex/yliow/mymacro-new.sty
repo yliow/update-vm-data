@@ -151,7 +151,7 @@
 
 %\pagestyle{scrheadings}
 
-\setlength{\parskip}{12pt}
+\setlength{\parskip}{12pt} % do not manually set????
 \setlength{\parindent}{0pt}
 \setlength{\textwidth}{6.5in}
 \setlength{\textheight}{8.5in}
@@ -259,6 +259,11 @@
  \tinysidebar{\debug{#1}}
  \input{#1} 
  %\newpage
+}
+\newcommand\myinputb[1]{
+  \tinysidebar{\debug{#1}}
+ \input{#1} 
+ %{\tiny{\debug{#1}}} \\
 }
 \newcommand\inputsection[2]{
   % flush solution of previous section is solutions.tex exists and is not
@@ -441,6 +446,17 @@ prepare_solutions()}
 %\newcommand\textttaux[1]{\svtexttt{#1}\gdef'{\svprime}\catcode`'=12 }
 %\catcode`'=12 %
 
+
+%==============================================================================
+% 2025/6/24: qc and \nextq moved new from myquiz.sty
+%==============================================================================
+\newcounter{qc}
+\newcommand\nextq{
+%\newpage
+\addtocounter{qc}{1}
+Q{\theqc}.
+}
+
 %===============================================================================
 % Test cases: counter and header
 % USAGE:
@@ -465,7 +481,9 @@ prepare_solutions()}
 % Might be temporary???
 %===============================================================================
 \newcommand\SIDEBAR[1]  {\tinysidebar{#1}}
-\newcommand\BEGINTODO   {\SIDEBAR{BEGIN TODO}}
-\newcommand\ENDTODO     {\SIDEBAR{END TODO}}
+\newcommand\BEGINTODO   {{\tiny BEGINTODO}\\ %\SIDEBAR{BEGIN TODO}
+}
+\newcommand\ENDTODO     {{\tiny ENDTODO}\\ %\SIDEBAR{END TODO}
+}
 \newcommand\BEGINCOMMENT{\SIDEBAR{BEGIN COMMENT}}
 \newcommand\ENDCOMMENT  {\SIDEBAR{END COMMENT}}

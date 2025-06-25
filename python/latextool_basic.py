@@ -17,6 +17,7 @@ from subprocess import PIPE
 from math import *
 import traceback
 import string
+from functools import reduce
 
 #from latexcircuit import *
 
@@ -535,7 +536,7 @@ def execute(source,
         # debug == false or stderr == ''
         s = ''
         if print_source:
-            s = console(source) + r'\vspace{0.5\baselineskip}' + stdout
+            s = console(source) + r'\vspace{0.5\baselineskip}' + '\n' + stdout
         else:
             s = stdout
         
@@ -711,6 +712,9 @@ class Plot:
         #for value in self.xs.values():
         for name in self.ordered_names: # ADDED FOR ORDERING OBJECTS
             value = self.xs[name]
+            #print(40*">")
+            #print("value:", type(value), flush=True)
+            #print("value:", value, type(value), flush=True)
             
             try:
                 shape, arg, karg = value
@@ -719,6 +723,9 @@ class Plot:
                 else:
                     s += apply(shape, arg, karg)
             except:
+                #print(">>>> in except")
+                #print("type(value):", type(value))
+                #print("value:", value)
                 try:
                     s += str(value)
                 except:
@@ -2420,34 +2427,43 @@ def tree(pos, # return value from function positions
          autoadjust=False,
          ):
     keys = pos.keys()
+
+    # if no node_label given then use keys of pos as label
     if node_label == None:
         node_label = {}
     for key in keys:
         if key not in node_label.keys():
             node_label[key] = key
 
-    for key in pos.keys():
+    # if key if pos.keys() does not appear as key in edges, then edges[key]=[],
+    # i.e., this key is a leaf node
+    for key in keys: # 2024/12/25: change pos.keys() for keys
         if key not in edges.keys():
             edges[key] = []
             
     if autoadjust:
+        # height_nodes is height->list of nodes hashtable, i.e., nodes
+        # organized by height
         height_nodes = {}
         for key in keys:
             y = pos[key][1]
-            if y not in height_nodes.keys(): height_nodes[y] = []
+            #if y not in height_nodes.keys(): height_nodes[y] = [] # 2024/12/25
+            if y not in height_nodes: height_nodes[y] = []
             height_nodes[y].append(key)
-        heights = height_nodes.keys()
+        heights = list(height_nodes.keys()) # 2024/12/25: added list
         heights.sort()
         for i,h in enumerate(heights):
             if i == 0:
+                # leaves case
                 nodes = height_nodes[h]
                 x_nodes = [(pos[node][0], node) for node in nodes]
                 x_nodes.sort()
-                for j,x_node in enumerate(x_nodes):
+                #for j,x_node in enumerate(x_nodes):
+                for j,x_node in enumerate(x_nodes): # 2024/12/25: typo???
+                    x,node = x_node
                     if j == 0:
                         pos[node][0] = 0
                     else:
-                        x,node = x_node
                         pos[node][0] = j * (width + hor_sep)
             else:
                 # not leaves case
@@ -3000,25 +3016,31 @@ def chunkedarray(x=0, y=0, cellwidth=1, cellheight=1,
         if label != '':
             if dy > 0:
                 if abs(x0 - x1) >= 0.5:
-                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
-                     (x0+0.1, y+cellheight+0.1,
-                      labelx, labely - 0.6 * dy,
-                      x1-0.1, y+cellheight+0.1)
-                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
-                     (labelx, labely - 0.6 * dy,
-                      labelx, labely - 0.3)
+                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);' % \
+                        (x0+0.1, y+cellheight+0.1,
+                         labelx, labely - 0.6 * dy,
+                         x1-0.1, y+cellheight+0.1)
+                    s += '\n'
+                    s += r'\draw (%s,%s) -- (%s,%s);' % \
+                        (labelx, labely - 0.6 * dy,
+                         labelx, labely - 0.3)
+                    s += '\n'
                 else:
-                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
-                     (labelx, y+cellheight+0.1, labelx, labely - 0.3)
+                    s += r'\draw (%s,%s) -- (%s,%s);' % \
+                        (labelx, y+cellheight+0.1, labelx, labely - 0.3)
+                    s += '\n'
             else:
                 if abs(x0 - labelx) >= 0.3:
-                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);\n' % \
-                         (x0+0.1, y-0.1, labelx, y-cellwidth/2, x1-0.1, -0.1)
-                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s) -- (%s,%s);' % \
+                        (x0+0.1, y-0.1, labelx, y-cellwidth/2, x1-0.1, -0.1)
+                    s += '\n'
+                    s += r'\draw (%s,%s) -- (%s,%s);' % \
                          (labelx, y-cellwidth/2, labelx, labely + 0.3)
+                    s += '\n'
                 else:
-                    s += r'\draw (%s,%s) -- (%s,%s);\n' % \
+                    s += r'\draw (%s,%s) -- (%s,%s);' % \
                          (labelx, y-0.1, labelx, labely + 0.3)
+                    s += '\n'
     # draw pipes
     # correct case of multiple consecutive empty lists (can be a problem is there are too many ...)
 
@@ -3508,6 +3530,55 @@ class SinglyLinkedListNode(RectContainer):
             self += Rect2(0, 0, 0.5, 0.5, linewidth=linewidth)
 
 #==============================================================================
+# Doubly Linked List Node
+#==============================================================================
+class DLNode:
+    L = 0.05 # linewidth
+    W = 0.7
+    H = 0.7
+    def __init__(self, x0=0, y0=0, key='', 
+                 prev=None, next=None):
+        L = DLNode.L
+        W = DLNode.W
+        H = DLNode.H
+        self.x0, self.y0 = x0, y0
+        self.w, self.h = w, h = W, H
+        self.key = key
+        self.prev, self.next = prev, next
+        c = RectContainer(x=x0, y=y0)
+        c += Rect2(x0=0, y0=0, x1=w, y1=h, linewidth=L, label='')
+        c += Rect2(x0=0, y0=0, x1=w, y1=h, linewidth=L, label=key)
+        c += Rect2(x0=0, y0=0, x1=w, y1=h, linewidth=L, label='')
+        self.c = c
+    def next_rect(self): return self.c[2]
+    def key_rect(self): return self.c[1]
+    def prev_rect(self): return self.c[0]
+    def __str__(self):
+        L = DLNode.L
+        s = str(self.c)
+        if self.next != None:
+            a = self.next_rect().center()
+            b = self.next.prev_rect().left()
+            s += line(points=[a, b], linewidth=L, 
+                      endstyle='->', startstyle='dot', arrowstyle='triangle')
+        else: # self.next is None
+            r = self.next_rect()
+            s += line(points=[r.topleft(), r.bottomright()], linewidth=L)
+            s += line(points=[r.topright(), r.bottomleft()], linewidth=L)
+        if self.prev != None:
+            a = self.prev_rect().center()
+            b = self.prev.key_rect().bottom()
+            c = a[0], a[1] - 1
+            d = b[0], c[1]
+            s += line(points=[a, c, d, b], linewidth=L, 
+                      endstyle='->', startstyle='dot', arrowstyle='triangle')
+        else: # self.prev is None
+            r = self.prev_rect()
+            s += line(points=[r.topleft(), r.bottomright()], linewidth=L)
+            s += line(points=[r.topright(), r.bottomleft()], linewidth=L)
+        return s
+
+#==============================================================================
 # consolegrid
 #==============================================================================
 def consolegrid(numrows=1, numcols=21, s=''):
@@ -3816,16 +3887,21 @@ def xxx(v):
     
 
 def augmatrix(aug):
-    colsize = (aug.colsize)//2
+    aug.cleanup() # 2024/12/26 added this line
+    colsize = (aug.colsize) // 2
     option = ("c"*colsize) + "|" + ("c"*colsize)
-    str_matrix = (r"\begin{bmatrix}[%s]" + '\n') % option
+    option = '{%s}' % option
+    # bmatrix by default uses 'c' (centering) for all values
+    # to remove option ...
+    option = ''
+    str_matrix = (r"\begin{bmatrix}%s") % option
     for row in aug.xs:
         row0 = ["%5s" % _ for _ in row]
         row0 = " & ".join(row0)
         row0 += r" \\" + "\n"
         str_matrix += row0
-    str_matrix += r"""\end{bmatrix}
-"""
+    str_matrix += r"\end{bmatrix}" + '\n'
+    #print(str_matrix)
     return str_matrix
 
 
@@ -3913,20 +3989,22 @@ def latex_boolean_product_matrix(A, B):
     return s
 
 def latex(computation):
+    """ row reduction
+    """
     name, params, aug = computation
 
     if name == 'swap':
         r0, r1 = params
         r0 += 1
         r1 += 1
-        arrow = r"""\underrightarrow{\,\,\, R_%s \leftrightarrow R_%s \,\,\,} &
+        arrow = r"""\underrightarrow{\,\,\,\,\, R_%s \leftrightarrow R_%s \,\,\,\,\,} &
 """ % (r0, r1)
 
     elif name == 'mult':
         r, k = params
         r += 1
         k = str(k)
-        arrow = r"""\underrightarrow{\,\,\, R_%s \rightarrow \left( %s \right) R_%s \,\,\,}&
+        arrow = r"""\underrightarrow{\,\,\,\,\, R_%s \rightarrow \left( %s \right) R_%s \,\,\,\,\,}&
 """ % (r, k, r)
 
     elif name == 'addmult':
@@ -3934,7 +4012,7 @@ def latex(computation):
         k = str(k)
         r0 += 1
         r1 += 1
-        arrow = r"""\underrightarrow{\,\,\, R_%s \rightarrow R_%s + \left( %s \right) R_%s \,\,\,}&
+        arrow = r"""\underrightarrow{\,\,\,\,\, R_%s \rightarrow R_%s + \left( %s \right) R_%s \,\,\,\,\,}&
 """ % (r1, r1, k, r0)
         
     else:
@@ -3960,7 +4038,17 @@ class Matrix:
         if any([len(self.xs[r])!=self.colsize for r in range(self.rowsize)]):
             raise ValueError("column size not the same")
 
+    def cleanup(self):
+        """ Replace -0.0 with 0.0 """
+        for row in self.xs:
+            for i in range(len(row)):
+                #if isinstance(row[i], float) and row[i] == -0.0:
+                #    row[i] = 0.0
+                if row[i] == 0: row[i] = 0 # converts 0.0 and -0.0 to 0
+                elif row[i] == int(row[i]): row[i] = int(row[i]) # WARNING 
+                
     def __str__(self):
+        self.cleanup()
         xs = self.xs
         width = []
         for c in range(self.colsize):
@@ -4173,20 +4261,20 @@ class Matrix:
             computation3 = " + ".join(computation3)
             
             string = r"\det " + latex_bmatrix(self)
-            string += "&= " + computation0 + r"\\\\ \n" +\
-                      "&= " + computation1 + r"\displaybreak[0] \\\\ \n" +\
-                      "&= " + computation2 + r"\displaybreak[0] \\\\ \n"
+            string += "&= " + computation0 + r"\\" + "\n" +\
+                      "&= " + computation1 + r"\displaybreak[0] \\" + "\n" +\
+                      "&= " + computation2 + r"\displaybreak[0] \\" + "\n"
 
             if computation3 != "":
-                string += "&= " + computation3 + r"\displaybreak[0] \\\\ \n"
+                string += "&= " + computation3 + r"\displaybreak[0] \\" + "\n"
             
             if len(computation4) > 0:
                 s = sum(computation4)
                 computation4 = " + ".join([xxx(_) for _ in (computation4)])
                 computation5 = str(s)
-                string += "&= " + computation4 + r"\displaybreak[0] \\\\ \n"
+                string += "&= " + computation4 + r"\displaybreak[0] \\" + "\n"
                 if computation4 != computation5:
-                    string += "&= " + computation5 + r"\displaybreak[0] \\\\ \n"
+                    string += "&= " + computation5 + r"\displaybreak[0] \\" + "\n"
                 
             Matrix.latex += string
 
@@ -4208,8 +4296,8 @@ class Matrix:
                     v2 = Matrix.lookup[str(aminor)]
                     yyy.append("(%s)%s" % (v1, xxx(v2)))
                 yyy = " + ".join(yyy)
-                Matrix.latex += "&= " + yyy + r"\displaybreak[0] \\\\ \n"
-                Matrix.latex += r"&= %s \\\\\n" % Matrix.lookup[str(self)]
+                Matrix.latex += "&= " + yyy + r"\displaybreak[0] \\" + "\n"
+                Matrix.latex += (r"&= %s \\" % Matrix.lookup[str(self)]) + "\n"
                 
             return s
 
@@ -5144,13 +5232,6 @@ def decpoint(N, r, c):
     return Circle(x=x-0.045, y=y+0.122, r=0.015, background='black')
 
 
-
-
-
-
-
-
-
 # Adjacency list
 def adjlist(p=None,
             X=0, Y=0,
@@ -5734,7 +5815,7 @@ def kmap(p, m=None,
                     kmap_NW(p, C[r1][0], C[0][c1],
                             d=d__, linecolor=linecolor, linewidth=linewidth)
                     kmap_NE(p, C[r1][c0], C[0][colsize-1],
-                            d=d__, linecolor=color)
+                            d=d__, linecolor=linecolor)
                     kmap_SW(p, C[rowsize-1][0], C[r0][c1],
                             d=d__, linecolor=linecolor, linewidth=linewidth)
                     kmap_SE(p, C[rowsize-1][c0], C[r0][colsize-1],
@@ -5982,12 +6063,16 @@ def association(p, p0, p1, s='', c0='', c1='', dx=0, dy=0, starttip='', endtip='
                 de=1, dn=1, dw=1, ds=1, moves=None):
 
     if layout in ['e','E']:
+        # association goes east
         hor_association(p=p, p0=p0, p1=p1, s=s, c0=c0, c1=c1, dx=dx, dy=dy, starttip=starttip, endtip=endtip)
     elif layout in ['w','W']:
+        # association goes west
         hor_association(p=p, p0=p1, p1=p0, s=s, c0=c1, c1=c0, dx=dx, dy=dy, starttip=endtip, endtip=starttip)
     elif layout in ['n','N']:
+        # association goes north
         ver_association(p=p, p0=p0, p1=p1, s=s, c0=c0, c1=c1, dx=dx, dy=dy, starttip=starttip, endtip=endtip)
     elif layout in ['s','S']:
+        # association goes south
         ver_association(p=p, p0=p1, p1=p0, s=s, c0=c1, c1=c0, dx=dx, dy=dy, starttip=endtip, endtip=starttip)
     elif layout in ['en','EN']:
         #
@@ -6114,8 +6199,10 @@ def association(p, p0, p1, s='', c0='', c1='', dx=0, dy=0, starttip='', endtip='
                     anchor = 'west'
                 else:
                     anchor = 'east'
-                
+
+                    # 2024/12/25: commented out. incorrect indentation??? see next line
                     x, y = (q[0] + r[0]) / 2.0, (q[1] + r[1]) / 2.0
+        x, y = (q[0] + r[0]) / 2.0, (q[1] + r[1]) / 2.0
             
         p += r'\node [anchor=%s] at (%s,%s) {\texttt{%s}};' % (anchor, x, y, s)
             
@@ -6149,6 +6236,8 @@ def uml_functioncall(k,
 
 
 def uml_usecase_man(p, x0=0, y0=0, x1=None, y1=None, w = 1,
+                    name=None,
+                    linecolor='red',
                     aspect_ratio=1/1.5):
     """
     aspect_ratio = width/height
@@ -6175,7 +6264,8 @@ def uml_usecase_man(p, x0=0, y0=0, x1=None, y1=None, w = 1,
         h = w/aspect_ratio
         y1 = y0 + h
         
-    rect = Rect(x0=x0, y0=y0, x1=x1, y1=y1, linewidth=0.1, linecolor='red')
+    rect = Rect(x0=x0, y0=y0, x1=x1, y1=y1, linewidth=0.1, linecolor=linecolor,
+                name=name)
     p += rect
     # one third of height
     dy = (y1 - y0) / 3.0
@@ -6755,7 +6845,7 @@ def stargraph(p=None,
     # TODO: Fix to make sure center is drawn last
     p += Graph.node(x=x, y=y, r=r, name=names['center'])
 
-    for i in range(hnum):
+    for i in range(num):
         p += Graph.edge(names=[names['center'], names[i]])
 
     p += Graph.node(x=x, y=y, r=r, name=names['center'])
@@ -7929,7 +8019,7 @@ def heapfilepage(p,
     def labelsections(p, row, label):
         x0,y0 = C[row][-1].center(); x0 += 0.5
         x1,y1 = x0 - 0.4, y0
-        p += Line(points=[(x0,y0), (x1,y1)], linewidth=0.1, endstyle='>')
+        p += Line(points=[(x0,y0), (x1,y1)], linewidth=0.02, endstyle='')
         p += str(POINT(x=x0, y=y0, r=0, label=r'{\small %s}' % label,
              anchor='west'))
 
@@ -7944,7 +8034,7 @@ def heapfilepage(p,
     if not (free_offset / ncols == 0 and free_offset % ncols == 0):
         x0,y0 = C[0][0].center(); y0 += 0.6
         x1,y1 = x0, y0 - 0.5
-        p += Line(points=[(x0,y0), (x1,y1)], linewidth=0.1, endstyle='>')
+        p += Line(points=[(x0,y0), (x1,y1)], linewidth=0.02, endstyle='')
         p += str(POINT(x=x0, y=y0, r=0, label=r'{\small %s}' % 'record space', anchor='south'))
 
     # draw border one more time
@@ -8050,11 +8140,11 @@ def bptree_get_arcs(root, children, vsep, height):
     #print ("root:", root)
     #print ("children:", children)
     if len(children) % 2 == 1:
-        num_arc_levels = len(children) / 2 + 1
+        num_arc_levels = len(children) // 2 + 1
         deltas = [(num_arc_levels - _ - 1) * float(vsep)/(num_arc_levels) - height for _ in range(num_arc_levels)]
         deltas = deltas + deltas[:-1][::-1]
     else:
-        num_arc_levels = len(children) / 2
+        num_arc_levels = len(children) // 2
         if num_arc_levels == 1:
             deltas = [0.0, 0.0]
         else:

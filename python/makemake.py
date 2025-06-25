@@ -3,11 +3,14 @@
 Create makefile
 
 * If makefile, abort, unless "-f" is specified. In that case original makefile
-is renamed as makefile.old  
+is renamed as makefile.old
+
+do "makemake latex1" for my notes
 """
 import glob, os, sys, getopt, shutil
 import re
 import datetime
+from pyutil import *
 
 
 def qnum_makefile():
@@ -66,11 +69,11 @@ s:
 #------------------------------------------------------------------------------
 
 def today(): return datetime.date.isoformat(datetime.date.today())
-def writefile(filename, s):
-    f =  open(filename, 'w'); f.write(s)
-def readfile(filename):
-    f =  open(filename, 'r')
-    return f.read()
+#def writefile(filename, s):
+#    f =  open(filename, 'w'); f.write(s)
+#def readfile(filename):
+#    f =  open(filename, 'r')
+#    return f.read()
 def rglob(root='.', regex='.*'):
     fs = []
     p = re.compile(regex)
@@ -104,21 +107,8 @@ student:
 \trsync -rv --exclude '*~' --exclude 'auto' --exclude 'student' . student
 \ttar -cvf student.tar student
 \tgzip student.tar
-
-view:
-\txdg-open %(filename)s.pdf
-
 v:
 \txdg-open %(filename)s.pdf
-        
-plain:
-\tsetstyle.py %(filename)s.tex --style=plain
-\tmake
-
-fancy:
-\tsetstyle.py %(filename)s.tex --style=fancy
-\tmake
-
 cleantmp:
 \trm -rf abc.outut
 \trm -rf '%(filename)s.log' 
@@ -150,14 +140,47 @@ clean:
 c:
 \tmake clean
     
-mail:
-\tsendgmail --attach=%(filename)s.pdf
-
 """
         makefile = template % {'filename':filename}
+        writefile('makefile', makefile)
     elif kind==1:
         questions_makefile()
 
+def latex1_makefile():
+    print("latex1_makefile")
+    s = r'''OPEN = xdg-open
+PDF = rm -rf solutions.tex; touch solutions.tex; \
+	pdflatex --shell-escape -halt-on-error -interaction=nonstopmode -file-line-error $@.tex && \
+	pdflatex --shell-escape -halt-on-error -interaction=nonstopmode -file-line-error $@.tex && \
+	pdflatex --shell-escape -halt-on-error -interaction=nonstopmode -file-line-error $@.tex && \
+	pythontex main.tex && \
+        makeindex $@.idx && \
+        pdflatex --shell-escape $@.tex && \
+        $(OPEN) $@.pdf;
+LATEXRM = rm -rf \
+        main.aux main.ilg main.log main.idx main.ind main.out main.toc \
+        main.py.err main.py.out main.py pythontex-files-main main.pytxcode \
+        comment.cut comment.err comment.out \
+        latex.py
+main:
+        $(PDF)
+c:
+	$(LATEXRM)
+cc:
+        $(LATEXRM)
+        rm -f main.pdf
+v:
+	$(OPEN) main.pdf
+'''
+    s = s.replace("        ", "\t")
+    t = "stdout%s.tex: stdout%s.py\n\tpython stdout%s.py > stdout%s.tex\n"
+    for i in range(0, 100):
+        i = str(i).zfill(2)
+        s += t % (i, i, i, i)
+    for i in range(100, 800):
+        s += t % (i, i, i, i)
+    writefile('makefile', s)
+    
 #==============================================================================
 # CPP
 #==============================================================================
@@ -381,21 +404,30 @@ def article():
     ''')
     
 def run():
-
+    #print("1")
     try:
         opt = {}
+        """
         opt = getopt.gnu_getopt(sys.argv[1:],
                                 'f',
-                                ['latex', 'cpp', 'main', 'help', 'helloworld', 'article'])
+                                ['latex', 'latex1', 'cpp', 'main', 'help', 'helloworld', 'article'])
         opt = dict([(x.replace('-','') ,y) for x,y in opt[0]])
+        print("opt:", opt)
+        """
+        print("sys.argv:", sys.argv)
+        if sys.argv[1] == 'latex1':
+            print("latex1")
+            latex1_makefile()
+            return
         if sys.argv[1] == 'cpp' and 'cpp' not in opt.keys():
             opt['cpp'] = ''
         if sys.argv[1] == 'article':
             opt['article'] = ''
+        #print("2")
     except:
         pass
 
-    #print(">>> opt:", opt)
+    print(">>> opt:", opt)
     
     if "help" in opt:
         help()
@@ -576,6 +608,8 @@ def run():
 
     if 'cpp' in opt:
         find_cpp_main()
+    elif 'latex1' in opt:
+        latex_makefile_1()
     elif 'latex' in opt:
         print("has key latex")
         find_latex_main()

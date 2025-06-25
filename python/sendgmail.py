@@ -3,21 +3,18 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-#from email.mime.image import MIMEImage
-from email import encoders # 2021/3/17: python 3
-#import mimetypes
+from email import encoders
 import datetime
+from google_app_config import GMAIL, TO, GOOGLE_APP_PASSWORD
 
-#from util import cstdatetimestr
-
-def sendgmail(to_='yliow@ccis.edu',
-              from_='yliow.submit@gmail.com',
+def sendgmail(to_=TO,
+              from_=GMAIL,
               subject='[NO SUBJECT]',
               text='this is a test',
               html='',
               attach=None, # list of paths or path or None
+              google_app_password=GOOGLE_APP_PASSWORD
               ):
-
     try:
         if isinstance(attach, str):
             attaches = [attach]
@@ -26,7 +23,7 @@ def sendgmail(to_='yliow@ccis.edu',
         elif isinstance(attach, list): 
             attaches = attach
 
-        sender_pass = 'mteazcfrizcrlnco' # app pwd
+        sender_pass = google_app_password
 
         msg = MIMEMultipart()
         msg['From'] = from_
@@ -53,19 +50,16 @@ def sendgmail(to_='yliow@ccis.edu',
         session.login(from_, sender_pass)
         session.sendmail(from_, to_, msg.as_string())
         session.quit()
-        return ('email sent to %s' % to_)
     except Exception as e:
         print(e)
         NOW = datetime.datetime.now()
-        raise Exception("ERROR: Please report error  %s" % NOW)
+        raise Exception("[%s] ERROR: Please report error" % NOW)
 
 if __name__ == '__main__':
     NOW = datetime.datetime.now()
-    sendgmail(to_=['yliow@yahoo.com'],
-              from_='yliow.submit@gmail.com',
+    sendgmail(to_=[GMAIL],
               subject='this is a test %s' % NOW,
               text='this is a test',
               html='<html><body><h1>This is a test</h1>This is a test</body></html>',
-              attach=['myemail.py',
-                      '/home/student/yliow/Documents/work/cc/courses/cpp-book/n/01-print-strings/01-print-strings.pdf']
+              attach=['myemail.py']
               )
