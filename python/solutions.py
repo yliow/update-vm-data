@@ -76,7 +76,7 @@ def add(label='', s='', filename='solutions.tex', srcfilename=None):
     
     header = ''
     if t.strip() == '':
-        header = r'\section*{Solutions}'
+        header = r'\newpage\section*{Solutions}' # 2025/07/02: add newpage ???
         pass
     
     body = r"""
