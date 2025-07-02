@@ -99,3 +99,26 @@
 {\begin{verbatim}}
 {\end{verbatim}}
 
+%=============================================================================
+% 2025/6/27: consolethree uses listings and will replace console and
+%            includesourcethree will replace includesourcenonumbers
+%=============================================================================
+\lstnewenvironment{consolethree}[1][]
+{
+  \lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    xleftmargin=3.4pt,
+    xrightmargin=3.4pt,
+    #1
+  }%
+}{}%
+
+\newcommand\includesourcethree[2][]{\lstinputlisting[frame=single,basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,xleftmargin=3.4pt,xrightmargin=3.4pt, #1]{#2}%
+    }%
