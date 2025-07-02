@@ -7,6 +7,8 @@ USAGE:
     solutions make-ex prop:group-theory-isomorphism-equivalence-relation
 """
 NEWPAGE_LINE_THRESHOLD = 20 # If answer.tex has < 10 lines, no newpage
+                            # Note that if answer.tex is large, newpage is
+                            # generated before and after answer.tex.
 PARSKIP_FACTOR = 1.5        # Factor of parskip between short answers
 
 import sys
