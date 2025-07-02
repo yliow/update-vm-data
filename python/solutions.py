@@ -6,6 +6,8 @@ USAGE:
     solutions make-ex group-theory-exercise-0
     solutions make-ex prop:group-theory-isomorphism-equivalence-relation
 """
+NEWPAGE_LINE_THRESHOLD = 20 # If answer.tex has < 10 lines, no newpage
+PARSKIP_FACTOR = 1.5        # Factor of parskip between short answers
 
 import sys
 import os, glob
@@ -54,9 +56,24 @@ def add(label='', s='', filename='solutions.tex', srcfilename=None):
 
     # if blank no need to add newpage
     t = readfile(filename)
-    newpage = r'\newpage'
+    newpage0, newpage1 = r'\newpage', r'\newpage'
     #if t.strip() != '':
     #    newpage = ''
+    # 2025/7/2: If s (contents of answer.tex) is very short,
+    #           change newpage to a blank line (?? -- good idea --??)
+    #           Threshold below is 10.
+    if len(s.split('\n')) < NEWPAGE_LINE_THRESHOLD:
+        newpage0 = r''
+        newpage1 = r'''\let\oldparskip\relax
+\newlength{\oldparskip}
+\setlength{\oldparskip}{\parskip}
+\setlength{\parskip}{%s\oldparskip}
+
+{\tiny{\,}}
+        
+\setlength{\parskip}{\oldparskip}
+        ''' % PARSKIP_FACTOR
+    
     header = ''
     if t.strip() == '':
         header = r'\section*{Solutions}'
@@ -68,7 +85,8 @@ def add(label='', s='', filename='solutions.tex', srcfilename=None):
 Solution to %s\labeltext{}%s.
 
 %s
-""" % (newpage, header, srclabel, sollabel, s)
+%s
+""" % (newpage0, header, srclabel, sollabel, s, newpage1)
     
     f = open(filename, 'a')
     f.write(body)

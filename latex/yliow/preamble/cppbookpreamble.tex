@@ -1,0 +1,18 @@
+\documentclass[a4paper,
+               headsepline,footsepline,
+               openany,oneside,chapterprefix,
+               12pt,
+               parskip=full]
+              {scrbook}
+\usepackage{mybooktwo}
+\input{fix-old-font-command.tex}
+
+\tikzset{%
+  tikzmarknode plain/.style={inner sep=0pt,rounded corners=0.0pt, thick},
+  tikzmarknode red/.style={inner sep=2pt,thick, draw=red},
+  tikzmarknode thickred/.style={inner sep=2pt,line width=0.1cm, draw=red},  
+  tikzmarknode roundedthickred/.style={inner sep=2pt,rounded corners=2.0pt, line width=0.1cm, draw=red},
+  every tikzmarknode/.append style={tikzmarknode plain},
+}
+
+\newlength\oldparskip % 2025/07/02 uses in solutions.py to temp change parskip

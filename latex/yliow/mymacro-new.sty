@@ -201,7 +201,7 @@
 \renewcommand*{\marginfont}{\tiny} % fontsize for marginnote
 \newcommand\sidebar[1]{\marginnote{#1}}
 \newcommand\sidenote[1]{\sidebar{#1}}
-\newcommand\tinysidebar[1]{\sidebar{#1}}
+\newcommand\tinysidebar[1]{\renewcommand*{\marginfont}{\tiny}\sidebar{#1}}
 \newcommand\tinysidebarskip{\renewcommand*{\marginnotevadjust}{8pt}}
 \newcommand\sidebarskip[1]{\renewcommand*{\marginnotevadjust}{#1}}
 \newcommand\instructornote[1]{\sidebar{\textit{Instructor note}.} #1}
@@ -488,7 +488,62 @@ Q{\theqc}.
 \newcommand\BEGINCOMMENT{\SIDEBAR{BEGIN COMMENT}}
 \newcommand\ENDCOMMENT  {\SIDEBAR{END COMMENT}}
 
-%======================
-% Typewriter backslash
-%======================
+%==================================
+% 2025/06/30: Typewriter backslash
+%==================================
 \newcommand\bstt{\texttt{\char`\\}}
+
+%==========================
+% 2025/06/30: For CPP book
+%==========================
+\newcommand\sidebox[3][0cm]{
+  \renewcommand*{\marginfont}{\normalsize}
+  \marginnote{
+    \centering%
+    %\begin{center}
+      \begin{tikzpicture}[overlay,remember picture, baseline=(#2.base)]
+        \node[rectangle, draw=red, text width=4cm, minimum width=2cm, line width=0.1cm, inner sep=0.2cm, name=#2] (#2) 
+             {
+               \begin{minipage}[t]{4.0cm}
+                 {#3}
+               \end{minipage}
+             };
+      \end{tikzpicture}
+    %\end{center}
+    \renewcommand*{\marginfont}{\tiny}
+}[#1]}
+
+\newcommand*{\DrawArrow}[3][red]{%
+    % #1 = draw options
+    % #2 = left node
+    % #3 = right node
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw [-latex, #1, line width=0.1cm] (#2) to (#3);
+  \end{tikzpicture}%
+}
+\newcommand*{\DrawArrowH}[3][red]{%
+    % #1 = draw options
+    % #2 = left node
+    % #3 = right node
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw [-latex, #1, line width=0.1cm] (#2.west |- #3) -- (#3);
+  \end{tikzpicture}%
+}
+\newcommand*{\DrawArrowVH}[3][red]{%
+    % #1 = draw options
+    % #2 = left node
+    % #3 = right node
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw [-latex, #1, line width=0.1cm] (#2) |- (#3.east);
+  \end{tikzpicture}%
+}
+\newcommand*{\DrawArrowHV}[3][red]{%
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw [-latex, #1, line width=0.1cm] (#2.west) -| (#3);
+  \end{tikzpicture}%
+}
+\newcommand*{\DrawArrowPoints}[4][red]{%
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw [-latex, #1, line width=0.1cm] (#2) #4 to (#3);
+  \end{tikzpicture}%
+}
