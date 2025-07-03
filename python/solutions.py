@@ -9,7 +9,7 @@ USAGE:
 NEWPAGE_LINE_THRESHOLD = 20 # If answer.tex has < 10 lines, no newpage
                             # Note that if answer.tex is large, newpage is
                             # generated before and after answer.tex.
-PARSKIP_FACTOR = 1.5        # Factor of parskip between short answers
+PARSKIP_FACTOR = 2.0        # Factor of parskip between short answers
 
 import sys
 import os, glob
@@ -66,8 +66,7 @@ def add(label='', s='', filename='solutions.tex', srcfilename=None):
     #           Threshold below is 10.
     if len(s.split('\n')) < NEWPAGE_LINE_THRESHOLD:
         newpage0 = r''
-        newpage1 = r'''\let\oldparskip\relax
-\newlength{\oldparskip}
+        newpage1 = r'''
 \setlength{\oldparskip}{\parskip}
 \setlength{\parskip}{%s\oldparskip}
 
