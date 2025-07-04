@@ -9,7 +9,7 @@ USAGE:
 NEWPAGE_LINE_THRESHOLD = 20 # If answer.tex has < 10 lines, no newpage
                             # Note that if answer.tex is large, newpage is
                             # generated before and after answer.tex.
-PARSKIP_FACTOR = 2.0        # Factor of parskip between short answers
+PARSKIP_FACTOR = 1.0        # Factor of parskip between short answers
 
 import sys
 import os, glob
