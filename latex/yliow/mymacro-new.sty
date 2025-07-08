@@ -499,8 +499,9 @@ Q{\theqc}.
 %==========================
 \newcommand\sidebox[3][0cm]{
   \renewcommand*{\marginfont}{\normalsize}
-  \marginnote{
+  \marginpar{ % 2025-07-07: Change marginnote to marginpar
     \centering%
+    \vspace{#1} % 2025-07-07: ADDED FOR VERTICAL SHIFT
     %\begin{center}
       \begin{tikzpicture}[overlay,remember picture, baseline=(#2.base)]
         \node[rectangle, draw=red, text width=4cm, minimum width=2cm, line width=0.1cm, inner sep=0.2cm, name=#2] (#2) 
@@ -512,7 +513,7 @@ Q{\theqc}.
       \end{tikzpicture}
     %\end{center}
     \renewcommand*{\marginfont}{\tiny}
-}[#1]}
+}}
 
 \newcommand*{\DrawArrow}[3][red]{%
     % #1 = draw options
