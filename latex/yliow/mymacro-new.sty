@@ -515,6 +515,30 @@ Q{\theqc}.
     \renewcommand*{\marginfont}{\tiny}
 }}
 
+% 2025/07/09: basically sidebox but with shifts and option to add attributes
+\newcommandx\xsidebox[5][1=0cm, 2=0cm, 3=]{
+  % #1 x-shift          -- optional (default: 0cm)
+  % #2 y-shift          -- optional (default: 0cm)
+  % #3 node attributes  -- optional (default: empty)
+  % #4 node name
+  % #5 node text
+  \renewcommand*{\marginfont}{\normalsize}
+  \marginpar{\centering%
+      %\vspace{#1}\hspace{#2} 
+      \begin{tikzpicture}[overlay,remember picture, baseline=(#4.base)]
+        \node[rectangle,
+          draw=red,
+          text width=4cm, minimum width=2cm, line width=0.1cm, inner sep=0.2cm, name=#4, xshift=#1, yshift=#2, #3] (#4) 
+             {
+               \begin{minipage}[t]{4.0cm}
+                 {#5}
+               \end{minipage}
+             };
+        ([xshift=0.5]#4.center)[draw]
+      \end{tikzpicture}
+    \renewcommand*{\marginfont}{\tiny}
+}}
+
 \newcommand*{\DrawArrow}[3][red]{%
     % #1 = draw options
     % #2 = left node
